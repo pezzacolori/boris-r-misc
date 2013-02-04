@@ -1,0 +1,43 @@
+\name{cordf}
+\alias{cordf}
+\title{Correlations above a threshold}
+\usage{
+  cordf(vars, data, threshold = 0.6, use = "everything",
+    method = c("pearson", "kendall", "spearman"))
+}
+\arguments{
+  \item{vars}{vector of column names or column numbers
+  holding the variables to analyse}
+
+  \item{data}{dataframe with the data}
+
+  \item{threshold}{correlation threshold}
+
+  \item{use}{an optional character string giving a method
+  for computing covariances in the presence of missing
+  values. This must be (an abbreviation of) one of the
+  strings "everything", "all.obs", "complete.obs",
+  "na.or.complete", or "pairwise.complete.obs"}
+
+  \item{method}{a character string indicating which
+  correlation coefficient is to be computed. One of
+  "pearson" (default), "kendall", or "spearman", can be
+  abbreviated}
+}
+\value{
+  a dataframe holding the variable pairs with a correlation
+  higher than the specified threshold
+}
+\description{
+  This function returns a dataframe with the variable pairs
+  above a given correlation threshold
+}
+\details{
+  It is based on the \code{\link{cor}} function, but
+  instead of a correlation matrix it returns a dataframe
+  with the pairwise combinations above a threshold.
+}
+\seealso{
+  \code{\link{cor2df}}
+}
+

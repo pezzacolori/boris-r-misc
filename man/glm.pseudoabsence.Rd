@@ -1,0 +1,33 @@
+\name{glm.pseudoabsence}
+\alias{glm.pseudoabsence}
+\title{GLM with pseudoabsences}
+\usage{
+  glm.pseudoabsence(formula, family = gaussian, data, ...)
+}
+\arguments{
+  \item{formula}{formula with dependent and independent
+  variables}
+
+  \item{family}{a description of the error distribution and
+  link function to be used in the model. This can be a
+  character string naming a family function, a family
+  function or the result of a call to a family function.
+  (See \code{\link{family}} for details of family
+  functions.)}
+
+  \item{data}{dataframe holding the data}
+
+  \item{...}{additional parameters to pass to glm}
+}
+\value{
+  glm model
+}
+\description{
+  Wrapper around \code{\link{glm}} to use a pseudoabsence
+  approach, substituting absences (zeros's) with the
+  prevalence (mean occurrence).
+}
+\seealso{
+  \code{\link{glm}}
+}
+

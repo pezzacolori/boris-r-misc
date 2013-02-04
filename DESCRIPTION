@@ -1,0 +1,14 @@
+Package: boris
+Title: 
+Description: Miscellaneous functions of boris
+Version: 1.0
+Maintainer: Gianni Boris Pezzatti <boris.pezzatti@wsl.ch>
+Author: pezzatti
+License: GPL-3
+Suggests:
+    testthat,
+    roxygen2
+Collate:
+    'fire_utils.r'
+    'utils.r'
+    'boris.r'
