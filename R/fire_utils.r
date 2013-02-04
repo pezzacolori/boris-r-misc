@@ -33,5 +33,10 @@ cor2df.fire <- function(vars, data, fire, threshold, use = "everything",method= 
     u$aic2[i] <-  m$m[rownames(m)==as.character(u$Var2[i])]
   }
   
-  list(u,m)  #returns a list of the pairwise correlatiosn with aicc and also all the aicc for al variables
+  list(cors=u, aiccs=m)  #returns a list of the pairwise correlatiosn with aicc and also all the aicc for al variables
 }
+
+
+
+
+

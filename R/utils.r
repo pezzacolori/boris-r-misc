@@ -88,15 +88,16 @@ cor2df <- function(d, threshold=0.6){
 
 
 
-#'Dependent variable(s)
+#'Dependent variable
 #'
-#'Extract the name of the dependent variable(s) from formula 
+#'Extract the name of the dependent variable from formula 
 #'
-#'@param formula formula to inspect
-#'@return name of the dependent variable(s)
+#'@param formula formula to inspect, either as formula object or string
+#'@return name of the dependent variable
 #'@export
 #'
-dependents <- function(formula){
+dependent <- function(formula){
+  if (is.character(formula)) formula <- formula(formula)
   as.character(attr(terms(formula),"variables")[[2]])
 }
 
@@ -105,11 +106,12 @@ dependents <- function(formula){
 #'
 #'Extract the name of the independent variable(s) from formula 
 #'
-#'@param formula formula to inspect
+#'@param formula formula to inspect, either as formula object or string
 #'@return name of the independent variable(s)
 #'@export
 #'
 independents <- function(formula){
+  if (is.character(formula)) formula <- formula(formula)
   attr(terms(formula),"term.labels")
 }
 
@@ -206,9 +208,12 @@ cleanFormulae <- function(formulae, cors){
 #'@return A dataframe without NA's in the columns holded by independent variables of the formula
 #'@export
 #'
-getNonNADataFromFormula <- function (data, formula){
-  if (is.character(formula)) formula <- formula(formula)
-  vars <- independents(formula)
+without.na <- function (data, formulaORcolnames){
+  vars <- if (class(try(as.formula(formulaORcolnames)))=='formula')
+            independents(formula)
+          else
+            formulaORcolnames
+
   for (var in vars){
     #     print(var)
     data <- data[!is.na(data[,var]),]
@@ -217,50 +222,6 @@ getNonNADataFromFormula <- function (data, formula){
 }
 
 
-#'GLM with pseudoabsences
-#'
-#'Wrapper around \code{\link{glm}} to use a pseudoabsence approach, substituting 
-#'absences (zeros's) with the prevalence (mean occurrence).
-#'
-#'@param formula formula with dependent and independent variables
-#'@param family a description of the error distribution and link function to be used in the model. 
-#'This can be a character string naming a family function, a family function or 
-#'the result of a call to a family function. (See \code{\link{family}} for details of family functions.)
-#'@param data dataframe holding the data
-#'@param ... additional parameters to pass to glm
-#'@return glm model
-#'@seealso \code{\link{glm}}
-#'@export
-#'
-glm.pseudoabsence <- function(formula, family=gaussian,data,...){
-#   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])] 
-  p <- data[, dependents(formula(formula))] 
-  p[p==0] <- length(p[p==1])/length(p[p==0])
-#   data[,as.character(attr(term(formula(formula)),"variables")[[2]])] <- p
-  data[, dependents(formula(formula))] <- p
-  glm(formula, family, data,...)
-}
-
-
-
-#'Maxent with formula
-#'
-#'Wrapper for Maxent to use a formula instead of data and presences
-#'
-#'@param formula formula with dependent and independent variables
-#'@param data dataframe holding the data
-#'@param ... additional parameters to pass to maxent
-#'@return Maxent model
-#'@seealso \code{\link{maxent}}
-#'@export
-#'
-maxent.formula <- function(formula, data, ...){
-#   x <- data[,attr(terms(formula(formula)),"term.labels")]
-#   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])]
-  x <- data[, dependents(formula(formula))]
-  p <- data[, independents(formula(formula))]
-  maxent(x,p,...)  
-}
 
 
 
@@ -310,3 +271,97 @@ calcAreaLim <- function (x, y, xupper=NULL){
   }
   calcArea(x,y)
 }
+
+
+
+#'Fill 1-value gaps in a vector
+#'
+#'Fill gaps of single values with linearization (mean of the adjacent values) or
+#'repetition of previous/next value.
+#'
+#'
+#'@param x numeric vector 
+#'@param method how to fill in the gaps (default by linearization, otherwise by 
+#'previous/next value duplication)
+#'@return numeric vector with filled 1-value gaps
+#'@export
+#'
+fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
+  
+  roll.na <- rollapply(x, width=3, FUN=function(a) sum(is.na(a)), fill=999)
+  
+  #select only 1day gaps
+  one.day <- which(is.na(x) & roll.na==1)
+  
+  #linearize
+  #   for (i in one.day)  x[i] <- x[i-1] + (x[i+1]-x[i-1])/2
+  if (substr(method,1,1)=='l')
+    for (i in one.day)  x[i] <- mean(c(x[i-1],x[i+1]))
+  else if (substr(method,1,1)=='p')
+    for (i in one.day)  x[i] <- x[i-1]
+  else if (substr(method,1,1)=='n')
+    for (i in one.day)  x[i] <- x[i+1]
+
+  x
+}
+
+#'Fill gaps in a dataframe with data from another dataframe
+#'
+#'Function replacing NA values in a dataframe with sequentially corresponding 
+#'data from another dataframe of the same length and with same column names.
+#'
+#'
+#'@param to dataframe holding the NA values to replace 
+#'@param from dataframe holding the NA values to replace 
+#'@param colnames character vector with the names of the columns
+#'@param case.sensitive logcial indicating if column names are considered according to case or not
+#'@return dataframe with replaces NA's
+#'@export
+#'
+mirror.na <- function (to, from, colnames, outfile, case.sensitive=T){
+
+  if (!case.sensitive){
+    names(to) <- tolower(names(to))
+    oldnames <- names(to)
+    names(from) <- tolower(names(from))
+    colnames <- tolower(colnames)  
+  }
+  
+  for (var in colnames)  to[is.na(to[,var]), var] <- from[is.na(to[,var]), var]
+  
+  if (!case.sensitive) names(to) <- oldnames
+  to
+}
+
+
+#'Filename without extension
+#'
+#'Strips the extension form the filename.#'
+#'
+#'@param file name of the file
+#'@return file name without extension
+#'@export
+#'
+filename <- function(file){
+  x <- strsplit(file,'.',fixed=T)[[1]]
+  paste(x[-length(x)],collapse='.')
+}
+
+
+#'Extract and Load command line arguments into session
+#'
+#'Loads the command line arguments supplied when this R session was invoked
+#'into the session environment.
+#'
+#'@return Nothing
+#'@export
+#'
+getArgs = function() {
+  args=(commandArgs(TRUE))
+  if(length(args) > 0) {
+    for (i in 1:length(args)){
+      eval.parent (parse(text=args[[i]]))
+    } 
+  } 
+}
+

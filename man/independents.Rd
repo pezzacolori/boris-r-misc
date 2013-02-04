@@ -5,7 +5,8 @@
   independents(formula)
 }
 \arguments{
-  \item{formula}{formula to inspect}
+  \item{formula}{formula to inspect, either as formula
+  object or string}
 }
 \value{
   name of the independent variable(s)

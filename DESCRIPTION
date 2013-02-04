@@ -12,3 +12,6 @@ Collate:
     'fire_utils.r'
     'utils.r'
     'boris.r'
+    'model_utils.r'
+    'scientific_utils.r'
+    'plot_utils.r'

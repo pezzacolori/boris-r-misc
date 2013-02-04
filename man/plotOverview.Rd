@@ -1,0 +1,34 @@
+\name{plotOverview}
+\alias{plotOverview}
+\title{Multiple plots of daily data over years}
+\usage{
+  plotOverview(data, vars, year = "x", doy = "y",
+    what = c("data", "mean", "na"),
+    rows = floor(length(vars)/cols + 1), cols = 4)
+}
+\arguments{
+  \item{data}{dataframe with data}
+
+  \item{vars}{character vector with variable (columns)
+  names holding the data to summarise}
+
+  \item{year}{name of the column holding the year}
+
+  \item{doy}{name of the column holding the doy [1-366]}
+
+  \item{what}{what to plot: all values, means over the
+  years or presence of NA's}
+
+  \item{rows}{number of rows for the multiple plots.
+  Defaults accordind to the number of}
+
+  \item{cols}{number of columns for the multiple plots.
+  Defaults to 4}
+}
+\value{
+  plot
+}
+\description{
+  Plots summaries of daily data in a yearly plot
+}
+
