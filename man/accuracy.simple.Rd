@@ -1,0 +1,22 @@
+\name{accuracy.simple}
+\alias{accuracy.simple}
+\title{Accuracy function to evaluate a presence/absence/background model}
+\usage{
+  accuracy.simple(p, a, abundance = NULL)
+}
+\arguments{
+  \item{p}{presences}
+
+  \item{sa}{absences}
+
+  \item{abundance}{abundances, should be passed in same
+  order as presences and same length}
+}
+\value{
+  a vector of named arguments (n=number data, np=numer of
+  presences, auc=auc, auc.bg=auc on the background)
+}
+\description{
+  Evaluate according to multiple criteria
+}
+

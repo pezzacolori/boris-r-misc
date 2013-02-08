@@ -1,0 +1,24 @@
+\name{accuracy.glm.simple}
+\alias{accuracy.glm.simple}
+\title{Accuracy function to evaluate a glm model}
+\usage{
+  accuracy.glm.simple(m, p, a, abundance = NULL)
+}
+\arguments{
+  \item{m}{glm model}
+
+  \item{p}{presences}
+
+  \item{a}{absences}
+
+  \item{abundance}{abundances, should be passed in same
+  order as presences and same length}
+}
+\value{
+  a vector of named arguments (n=number data, np=numer of
+  presences, )
+}
+\description{
+  Evaluate according to multiple criteria a glm model
+}
+

@@ -1,0 +1,19 @@
+\name{predictME}
+\alias{predictME}
+\title{Predict new values of a maxent model}
+\usage{
+  predictME(m, data)
+}
+\arguments{
+  \item{m}{maxent model}
+
+  \item{data}{frame holding the data}
+}
+\value{
+  predictions
+}
+\description{
+  Calculates new values of a maxent model
+  (\code{\link{dismo::maxent}})
+}
+

@@ -1,0 +1,21 @@
+\name{bkr}
+\alias{bkr}
+\title{Background proportion}
+\usage{
+  bkr(d, thr, depvar_name = "y")
+}
+\arguments{
+  \item{d}{dataframe}
+
+  \item{thr}{threshold value}
+
+  \item{depvar_name}{name of the column holding the model
+  output}
+}
+\value{
+  background proportion
+}
+\description{
+  Background proportion
+}
+

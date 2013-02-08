@@ -1,7 +1,6 @@
 \name{kfold.seq}
 \alias{kfold.seq}
-\title{Modified version of the \code{\link{dismo::kfold}} function, that returns
-subsequent (not random) folds (consistent among runs)}
+\title{Sequential k-fold partitioning}
 \usage{
   kfold.seq(x, k = 5, by = NULL)
 }

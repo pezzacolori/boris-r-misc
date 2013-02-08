@@ -1,0 +1,25 @@
+\name{fpr}
+\alias{fpr}
+\title{False positive rate (1- specificity)}
+\usage{
+  fpr(d, thr, depvar_name = "y",
+    ocurrence_colname = "presence")
+}
+\arguments{
+  \item{d}{dataframe}
+
+  \item{thr}{threshold value}
+
+  \item{depvar_name}{name of the column holding the model
+  output}
+
+  \item{ocurrence_colname}{name of the column holding
+  presence [0/1]}
+}
+\value{
+  false positive rate (1- specificity)
+}
+\description{
+  False positive rate (1- specificity)
+}
+
