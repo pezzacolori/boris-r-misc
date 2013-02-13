@@ -1,13 +1,14 @@
 #'Correlations above a threshold, showing aicc's of a logistic according to fire presence
 #'
-#'This function returns a dataframe with the variable pairs above a given correlation threshold
+#'This function returns a dataframe with the variable pairs above a given correlation threshold, and the aic 
+#'value of a logistic model with fire occurrence
 #'
 #'It is based on the \code{\link{cor}} function, but instead of a correlation matrix it returns
 #'a dataframe with the pairwise combinations above a threshold. 
 #'
 #'@param vars vector of column names or column numbers holding the variables to analyse
 #'@param data dataframe with the data
-#'@param fire column name of number holdinf fire presence [0/1]
+#'@param fire column name of number holding fire presence [0/1]
 #'@param threshold correlation threshold
 #'@param use  an optional character string giving a method for computing covariances in the 
 #'presence of missing values. This must be (an abbreviation of) one of the strings 
@@ -15,8 +16,8 @@
 #'@param method a character string indicating which correlation coefficient 
 #'is to be computed. One of "pearson" (default), "kendall", or "spearman", can be abbreviated
 #'@return a list with \itemize{
-#'\item dataframe holding the variable pairs with a correlation higher than the specified threshold, and the relative aicc's'
-#'\item dataframe holding  allthe aicc's' for all variables
+#'\item cors: dataframe holding the variable pairs with a correlation higher than the specified threshold, and the relative aicc's'
+#'\item aiccs: dataframe holding  allthe aicc's' for all variables
 #'} 
 #'@seealso \code{\link{cordf}}
 #'@export

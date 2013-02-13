@@ -126,8 +126,8 @@ kfold.seq <- function (x, k = 5, by = NULL)
 #'Models from formulae 
 #'
 #'Build a list of models according to different formulae, a prefix and a suffix
-#'#'@param x a vector, matrix, data.frame, or Spatial object
 #'
+#'@param x a vector, matrix, data.frame, or Spatial object
 #'@param prefix string representation of the model prefix (e.g.  "glm(") 
 #'@param formulae list of formulae as string expressions
 #'@param suffix string representation of the model suffix (e.g.  ", family="binomial")"   )
@@ -155,7 +155,7 @@ getModelList <- function(prefix,formulae,suffix, envir=parent.frame(1)){  #formu
 #'Evaluate according to multiple criteria
 #'
 #'@param p presences
-#'@param sa absences
+#'@param a absences
 #'@param abundance abundances, should be passed in same order as presences and same length
 #'@return a vector of named arguments (n=number data, np=numer of presences, auc=auc, auc.bg=auc on the background)
 #'@export

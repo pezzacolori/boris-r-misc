@@ -69,20 +69,20 @@ cordf <- function(vars, data, threshold=0.6, use = "everything", method= c("pear
 #'It is based on the \code{\link{cor}} function, but instead of a correlation matrix it returns
 #'a dataframe with the pairwise combinations above a threshold. 
 #'
-#'@param d correlation matrix
+#'@param cor.mat correlation matrix
 #'@param threshold correlation threshold
 #'@return a dataframe holding the variable pairs with a correlation higher than the specified threshold
 #'@seealso \code{\link{cordf}}
 #'@export
 #'
-cor2df <- function(d, threshold=0.6){
+cor2df <- function(cor.mat, threshold=0.6){
   require(reshape2)
-  for (i in 1:ncol(d)){
-    for (j in 1:nrow(d)){
-      if (j<=i) d[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
+  for (i in 1:ncol(cor.mat)){
+    for (j in 1:nrow(cor.mat)){
+      if (j<=i) cor.mat[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
     }
   }
-  d_m <- melt(d, na.rm=T)  
+  d_m <- melt(cor.mat, na.rm=T)  
   unique(d_m[abs(d_m$value)>threshold & !is.na(d_m$value),])
 }
 
@@ -312,13 +312,13 @@ fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
 #'
 #'
 #'@param to dataframe holding the NA values to replace 
-#'@param from dataframe holding the NA values to replace 
+#'@param from dataframe holding the values to replace the NA's
 #'@param colnames character vector with the names of the columns
 #'@param case.sensitive logcial indicating if column names are considered according to case or not
 #'@return dataframe with replaces NA's
 #'@export
 #'
-mirror.na <- function (to, from, colnames, outfile, case.sensitive=T){
+mirror.na <- function (to, from, colnames, case.sensitive=T){
 
   if (!case.sensitive){
     names(to) <- tolower(names(to))
@@ -336,7 +336,7 @@ mirror.na <- function (to, from, colnames, outfile, case.sensitive=T){
 
 #'Filename without extension
 #'
-#'Strips the extension form the filename.#'
+#'Strips the extension form the filename.
 #'
 #'@param file name of the file
 #'@return file name without extension
