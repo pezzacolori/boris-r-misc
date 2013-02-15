@@ -2,13 +2,13 @@
 \alias{mirror.na}
 \title{Fill gaps in a dataframe with data from another dataframe}
 \usage{
-  mirror.na(to, from, colnames, outfile,
-    case.sensitive = T)
+  mirror.na(to, from, colnames, case.sensitive = T)
 }
 \arguments{
   \item{to}{dataframe holding the NA values to replace}
 
-  \item{from}{dataframe holding the NA values to replace}
+  \item{from}{dataframe holding the values to replace the
+  NA's}
 
   \item{colnames}{character vector with the names of the
   columns}

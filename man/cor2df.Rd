@@ -2,10 +2,10 @@
 \alias{cor2df}
 \title{Correlated variable pairs}
 \usage{
-  cor2df(d, threshold = 0.6)
+  cor2df(cor.mat, threshold = 0.6)
 }
 \arguments{
-  \item{d}{correlation matrix}
+  \item{cor.mat}{correlation matrix}
 
   \item{threshold}{correlation threshold}
 }

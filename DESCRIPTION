@@ -1,9 +1,10 @@
 Package: boris
 Title: 
-Description: Miscellaneous functions of boris
-Version: 1.0
+Description: Miscellaneous functions of boris. It contains general utils, model, plot and scientific utils. 
+              Probably in future to be splitted into multiple packages.
+Version: 0.1
 Maintainer: Gianni Boris Pezzatti <boris.pezzatti@wsl.ch>
-Author: pezzatti
+Author: Gianni Boris Pezzatti
 License: GPL-3
 Suggests:
     testthat,
@@ -11,7 +12,7 @@ Suggests:
 Collate:
     'fire_utils.r'
     'utils.r'
-    'boris.r'
     'model_utils.r'
     'scientific_utils.r'
     'plot_utils.r'
+    'boris.r'

@@ -11,6 +11,6 @@
   file name without extension
 }
 \description{
-  Strips the extension form the filename.#'
+  Strips the extension form the filename.
 }
 

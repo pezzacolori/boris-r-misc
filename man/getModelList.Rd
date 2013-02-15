@@ -24,6 +24,6 @@
 }
 \description{
   Build a list of models according to different formulae, a
-  prefix and a suffix #'
+  prefix and a suffix
 }
 

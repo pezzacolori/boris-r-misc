@@ -12,7 +12,7 @@
 
   \item{data}{dataframe with the data}
 
-  \item{fire}{column name of number holdinf fire presence
+  \item{fire}{column name of number holding fire presence
   [0/1]}
 
   \item{threshold}{correlation threshold}
@@ -29,14 +29,16 @@
   abbreviated}
 }
 \value{
-  a list with \itemize{ \item dataframe holding the
+  a list with \itemize{ \item cors: dataframe holding the
   variable pairs with a correlation higher than the
   specified threshold, and the relative aicc's' \item
-  dataframe holding allthe aicc's' for all variables }
+  aiccs: dataframe holding allthe aicc's' for all variables
+  }
 }
 \description{
   This function returns a dataframe with the variable pairs
-  above a given correlation threshold
+  above a given correlation threshold, and the aic value of
+  a logistic model with fire occurrence
 }
 \details{
   It is based on the \code{\link{cor}} function, but

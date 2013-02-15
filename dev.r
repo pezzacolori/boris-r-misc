@@ -9,5 +9,6 @@ check()
 document()
 
 build()
+build_win()
 
 install()

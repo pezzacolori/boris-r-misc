@@ -7,7 +7,7 @@
 \arguments{
   \item{p}{presences}
 
-  \item{sa}{absences}
+  \item{a}{absences}
 
   \item{abundance}{abundances, should be passed in same
   order as presences and same length}
