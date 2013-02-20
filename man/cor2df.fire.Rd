@@ -2,15 +2,16 @@
 \alias{cor2df.fire}
 \title{Correlations above a threshold, showing aicc's of a logistic according to fire presence}
 \usage{
-  cor2df.fire(vars, data, fire, threshold,
+  cor2df.fire(data, vars = NULL, fire, threshold,
     use = "everything",
     method = c("pearson", "kendall", "spearman"))
 }
 \arguments{
-  \item{vars}{vector of column names or column numbers
-  holding the variables to analyse}
-
   \item{data}{dataframe with the data}
+
+  \item{vars}{vector of column names or column numbers
+  holding the variables to analyse. If not specified all
+  the columns will be used.}
 
   \item{fire}{column name of number holding fire presence
   [0/1]}

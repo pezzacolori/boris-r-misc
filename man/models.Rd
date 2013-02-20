@@ -1,13 +1,10 @@
-\name{getModelList}
-\alias{getModelList}
+\name{models}
+\alias{models}
 \title{Models from formulae}
 \usage{
-  getModelList(prefix, formulae, suffix,
-    envir = parent.frame(1))
+  models(prefix, formulae, suffix, envir = parent.frame(1))
 }
 \arguments{
-  \item{x}{a vector, matrix, data.frame, or Spatial object}
-
   \item{prefix}{string representation of the model prefix
   (e.g.  "glm(")}
 
@@ -17,7 +14,8 @@
   (e.g.  ", family="binomial")" )}
 
   \item{envir}{environment in which to evaluate the model
-  expression}
+  expression. By default evaluates in the environment that
+  calls this function}
 }
 \value{
   a list of models

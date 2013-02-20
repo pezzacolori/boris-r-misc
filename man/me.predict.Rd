@@ -1,8 +1,8 @@
-\name{predictME}
-\alias{predictME}
+\name{me.predict}
+\alias{me.predict}
 \title{Predict new values of a maxent model}
 \usage{
-  predictME(m, data)
+  me.predict(m, data)
 }
 \arguments{
   \item{m}{maxent model}
@@ -14,6 +14,6 @@
 }
 \description{
   Calculates new values of a maxent model
-  (\code{\link{dismo::maxent}})
+  (\code{\link{maxent}})
 }
 

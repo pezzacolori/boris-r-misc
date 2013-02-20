@@ -1,0 +1,17 @@
+\name{me.parNum}
+\alias{me.parNum}
+\title{Count the number of Maxent parameters (with lambda!=0)}
+\usage{
+  me.parNum(m)
+}
+\arguments{
+  \item{m}{maxent model}
+}
+\value{
+  number of parameters
+}
+\description{
+  Counts the number of parameters (with lambda!=0) of a
+  maxent model (\code{\link{maxent}})
+}
+

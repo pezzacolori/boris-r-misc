@@ -17,11 +17,11 @@
   a vector with group assignments
 }
 \description{
-  Modified version of the \code{\link{dismo::kfold}}
-  function, that returns subsequent (not random) folds
-  (consistent among runs)
+  Modified version of the \code{\link{kfold}} function,
+  that returns subsequent (not random) folds (consistent
+  among runs)
 }
 \seealso{
-  \code{\link{dismo::kfold}}
+  \code{\link{kfold}}
 }
 

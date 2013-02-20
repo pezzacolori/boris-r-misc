@@ -5,7 +5,7 @@
 #'
 #'Calculate vapour pressure deficit from temperature and humidity
 #'
-#'@param T numeric vector with air temperature values [°C]
+#'@param T numeric vector with air temperature values [C]
 #'@param H numeric vector with air humidity values [\%]
 #'@return vapur pressure deficit
 #'@export

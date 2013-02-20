@@ -18,10 +18,12 @@
 #'
 glm.pseudoabsence <- function(formula, family=gaussian,data,...){
   #   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])] 
-  p <- data[, dependents(formula(formula))] 
+  vars <- dep.vars(formula)
+  
+  p <- data[, vars] 
   p[p==0] <- length(p[p==1])/length(p[p==0])
   #   data[,as.character(attr(term(formula(formula)),"variables")[[2]])] <- p
-  data[, dependents(formula(formula))] <- p
+  data[, vars] <- p
   glm(formula, family, data,...)
 }
 
@@ -41,8 +43,8 @@ glm.pseudoabsence <- function(formula, family=gaussian,data,...){
 maxent.formula <- function(formula, data, ...){
   #   x <- data[,attr(terms(formula(formula)),"term.labels")]
   #   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])]
-  x <- data[, dependents(formula(formula))]
-  p <- data[, independents(formula(formula))]
+  x <- data[, dep.vars(formula)]
+  p <- data[, ind.vars(formula)]
   maxent(x,p,...)  
 }
 
@@ -51,7 +53,7 @@ maxent.formula <- function(formula, data, ...){
 
 #'Sequential k-fold partitioning
 #'
-#'Modified version of the \code{\link{dismo::kfold}} function, that returns 
+#'Modified version of the \code{\link{kfold}} function, that returns 
 #'subsequent (not random) folds (consistent among runs)
 #'
 #'@param x a vector, matrix, data.frame, or Spatial object
@@ -59,7 +61,7 @@ maxent.formula <- function(formula, data, ...){
 #'@param by Optional argument. A vector or factor with sub-groups (e.g. species). 
 #'Its length should be the same as the number of records in x
 #'@return a vector with group assignments
-#'@seealso \code{\link{dismo::kfold}}
+#'@seealso \code{\link{kfold}}
 #'@export
 #'
 kfold.seq <- function (x, k = 5, by = NULL) 
@@ -127,15 +129,15 @@ kfold.seq <- function (x, k = 5, by = NULL)
 #'
 #'Build a list of models according to different formulae, a prefix and a suffix
 #'
-#'@param x a vector, matrix, data.frame, or Spatial object
 #'@param prefix string representation of the model prefix (e.g.  "glm(") 
 #'@param formulae list of formulae as string expressions
 #'@param suffix string representation of the model suffix (e.g.  ", family="binomial")"   )
-#'@param envir environment in which to evaluate the model expression
+#'@param envir environment in which to evaluate the model expression. By default evaluates in the 
+#'environment that calls this function
 #'@return a list of models
 #'@export
 #'
-getModelList <- function(prefix,formulae,suffix, envir=parent.frame(1)){  #formulas as characters
+models <- function(prefix,formulae,suffix, envir=parent.frame(1)){  #formulas as characters
   l=list()
   for (formula in formulae){
     l = c(l,try(list(evaltext(prefix,formula,suffix,envir=envir))))     #evaluate in the environment that calls getModelList
@@ -161,8 +163,8 @@ getModelList <- function(prefix,formulae,suffix, envir=parent.frame(1)){  #formu
 #'@export
 #'
 accuracy.simple <- function(p, a, abundance=NULL){   
-#   library(SDMTools)
-  g
+  require(SDMTools)
+  
   dp <- data.frame(presence=rep(1,length(p)), y=p)
   da <- data.frame(presence=rep(0,length(a)), y=a)
   
@@ -219,18 +221,17 @@ accuracy.simple <- function(p, a, abundance=NULL){
   auc.bg=auc(d.bg$presence,d.bg$y) 
     
   #put results in a vector with column names (for binding in data.frame later)              
-  out <- c(
-    n=nrow(d),
-    np=length(p),
-    auc=auc.usual,      
-    auc.bg=auc.bg)
+  out <- c( n=nrow(d),
+            np=length(p),
+            auc=auc.usual,      
+            auc.bg=auc.bg)
   
   if (!is.null(abundance)){ 
     out <- c(out,
              area= area,
              area.log=area.log,
              area.rel=area.rel,
-             area.log.rel=area.log.rel,
+             area.log.rel=area.log.rel
              #       area.max=area.max,
              #       area.log.max=area.log.max,
              #       intersect.auc.area.rel = auc.usual + area.rel -1,
@@ -242,7 +243,7 @@ accuracy.simple <- function(p, a, abundance=NULL){
 
 #'Accuracy function to evaluate a maxent model 
 #'
-#'Evaluate according to multiple criteria a maxent model (\code{\link{dismo::maxent}})
+#'Evaluate according to multiple criteria a maxent model (\code{\link{maxent}})
 #'
 #'@param me maxent model
 #'@param p presences
@@ -322,11 +323,9 @@ accuracy.glm.simple <- function(m, p,a, abundance=NULL){
 
 #'Accuracy function to evaluate a maxent model for training and test dataset
 #'
-#'Evaluate according to multiple criteria a maxent model (\code{\link{dismo::maxent}}) for training and test dataset
+#'Evaluate according to multiple criteria a maxent model (\code{\link{maxent}}) for training and test dataset
 #'
 #'@param me maxent model
-#'@param p presences
-#'@param a absences
 #'@param abundance abundances, should be passed in same order as presences and same length
 #'@param test dataframe holding test data
 #'@param depvar_name name of te dependent variable in the test dataframe
@@ -364,8 +363,6 @@ accuracy.me.cross <- function(me, abundance, test=NULL, depvar_name, abundance_n
 #'Evaluate according to multiple criteria a gml model for training and test dataset
 #'
 #'@param m glm model
-#'@param p presences
-#'@param a absences
 #'@param abundance abundances, should be passed in same order as presences and same length
 #'@param test dataframe holding test data
 #'@param depvar_name name of te dependent variable in the test dataframe
@@ -410,11 +407,11 @@ accuracy.glm.cross <- function(m, abundance, test, depvar_name, abundance_name){
 #'@param d dataframe 
 #'@param thr threshold value
 #'@param depvar_name name of the column holding the model output
-#'@param colname name of the column holding presence [0/1]
+#'@param ocurrence_colname name of the column holding presence [0/1]
 #'@return true positive rate (sensitivity)
 #'@export
 #'  
-tpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){    
+tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){    
   #   singletpr <- function(d,thr){    
   #     nrow(d[d$presence==1 & d$y>=thr,])/ nrow(d[d$presence==1,])
   #   }
@@ -464,13 +461,13 @@ bkr <- function(d,thr, depvar_name='y'){
 #' False positive rate for a given true positive rate
 #' 
 #'@param d dataframe 
-#'@param tp,rate true positive rate
+#'@param tp.rate true positive rate
 #'@param depvar_name name of the column holding the model output
-#'@param ocurrence_colname name of the column holding presence [0/1]
+#'@param occurrence_colname name of the column holding presence [0/1]
 #'@return false positive rate
 #'@export
 #'  
-fpr.for.tpr <- function(d,tp.rate, depvar_name='y', ocurrence_colname='presence'){     
+fpr.for.tpr <- function(d,tp.rate, depvar_name='y', occurrence_colname='presence'){     
   d <- d[order(d[,depvar_name]),]
   thr <- approx( tpr(d,d[,depvar_name], depvar_name, occurrence_colname), d[,depvar_name] ,tp.rate, rule=2)[, depvar_name]
   fpr(d, thr,  depvar_name, occurrence_colname)
@@ -480,13 +477,13 @@ fpr.for.tpr <- function(d,tp.rate, depvar_name='y', ocurrence_colname='presence'
 #' Background portion for a given true positive rate
 #' 
 #'@param d dataframe 
-#'@param tp,rate true positive rate
+#'@param tp.rate true positive rate
 #'@param depvar_name name of the column holding the model output
-#'@param ocurrence_colname name of the column holding presence [0/1]
+#'@param occurrence_colname name of the column holding presence [0/1]
 #'@return background proportion
 #'@export
 #'  
-bkr.for.tpr <- function(d, tp.rate, depvar_name='y', ocurrence_colname='presence'){     
+bkr.for.tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
   d <- d[order(d[,depvar_name]),]
   thr <- approx(tpr(d,d[, depvar_name], depvar_name, occurrence_colname), d[,depvar_name], tp.rate, rule=2)[, depvar_name]
   #   Vectorize(function(x,thr) nrow(x[x$y>=thr,]),'thr' )(d, thr)/ nrow(d)
@@ -506,13 +503,13 @@ bkr.for.tpr <- function(d, tp.rate, depvar_name='y', ocurrence_colname='presence
 
 #' Extract lambda file values
 #' 
-#' Filla a dataframe with the lambda file values of a maxent model (\code{\link{dismo::maxent}})
+#' Filla a dataframe with the lambda file values of a maxent model (\code{\link{maxent}})
 #' 
 #'@param m maxent model
 #'@return dataframe with the lambda values (what, lambda, min, max)
 #'@export
 #' 
-getMElambdas <- function(m){   #m is a maxent model
+me.lambdas <- function(m){   #m is a maxent model
   m.par <- m@lambdas[1:(length(m@lambdas)-4)]
   tmp <- sapply(m.par, function(x) strsplit(x,','), USE.NAMES=F)   # split with comma
   lambdas <- data.frame(what=NA, lambda=NA,min=NA,max=NA)
@@ -528,16 +525,16 @@ getMElambdas <- function(m){   #m is a maxent model
 }  
 
 
-#' Count the number of parameters (with lambda!=0) 
+#' Count the number of Maxent parameters (with lambda!=0) 
 #' 
-#' Cunts the number of parameters (with lambda!=0)  of a maxent model (\code{\link{dismo::maxent}})
+#' Counts the number of parameters (with lambda!=0)  of a maxent model (\code{\link{maxent}})
 #' 
 #'@param m maxent model
 #'@return number of parameters
 #'@export
 #' 
-getMEparNum <- function(m){
-  l <- getMElambdas(m)
+me.parNum <- function(m){
+  l <- me.lambdas(m)
   nrow(l[l$lambda!=0.0,]) 
 }
 
@@ -550,7 +547,7 @@ aicc.me <- function(m, d, presence.name='presence', mpfr.precision=100){
     a[,presence.name] <- 0
     d <- rbind(p,a)
   }
-  k <- getMEparNum(m)
+  k <- me.parNum(m)
   n <- nrow(d)
   if (k==0 || k>n){
     NA
@@ -574,13 +571,13 @@ aicc.me <- function(m, d, presence.name='presence', mpfr.precision=100){
 
 #' Constants of a maxent model
 #' 
-#' Extract the constants of a maxent model (\code{\link{dismo::maxent}})
+#' Extract the constants of a maxent model (\code{\link{maxent}})
 #' 
 #'@param m maxent model
 #'@return dataframe holding the constants (what, value)
 #'@export
 #' 
-getMEconstants <- function(m){   #m is a maxent model
+me.constants <- function(m){   #m is a maxent model
   m.par <- m@lambdas[(length(m@lambdas)-3) : length(m@lambdas)]
   tmp <- sapply(m.par, function(x) strsplit(x,','), USE.NAMES=F)
   constants <- data.frame(what=NA, value=NA)
@@ -595,15 +592,15 @@ getMEconstants <- function(m){   #m is a maxent model
 #calculate new values of maxent
 #' Predict new values of a maxent model
 #' 
-#' Calculates new values of a maxent model (\code{\link{dismo::maxent}})
+#' Calculates new values of a maxent model (\code{\link{maxent}})
 #' 
 #'@param m maxent model
 #'@param data frame holding the data
 #'@return predictions
 #'@export
 #' 
-predictME <- function(m, data){
-  l <- getMElambdas(m)
+me.predict <- function(m, data){
+  l <- me.lambdas(m)
   
   l$type <- 'RAW'
   l$type[grep('^2',l$what, fixed=T)] <- 'QUADRATIC'
@@ -636,7 +633,7 @@ predictME <- function(m, data){
     l[i,] <- s
   }
   #   print(l)
-  cs <- getMEconstants(m)
+  cs <- me.constants(m)
   linearPredictorNormalizer <- cs$value[cs$what=='linearPredictorNormalizer']
   densityNormalizer <- cs$value[cs$what=='densityNormalizer']
   entropy <-  cs$value[cs$what=='entropy']

@@ -20,6 +20,6 @@
 }
 \description{
   Evaluate according to multiple criteria a maxent model
-  (\code{\link{dismo::maxent}})
+  (\code{\link{maxent}})
 }
 

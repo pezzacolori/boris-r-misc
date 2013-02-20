@@ -5,7 +5,7 @@
   vpd(T, H)
 }
 \arguments{
-  \item{T}{numeric vector with air temperature values [°C]}
+  \item{T}{numeric vector with air temperature values [C]}
 
   \item{H}{numeric vector with air humidity values [\%]}
 }

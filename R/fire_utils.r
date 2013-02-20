@@ -6,8 +6,8 @@
 #'It is based on the \code{\link{cor}} function, but instead of a correlation matrix it returns
 #'a dataframe with the pairwise combinations above a threshold. 
 #'
-#'@param vars vector of column names or column numbers holding the variables to analyse
 #'@param data dataframe with the data
+#'@param vars vector of column names or column numbers holding the variables to analyse. If not specified all the columns will be used.
 #'@param fire column name of number holding fire presence [0/1]
 #'@param threshold correlation threshold
 #'@param use  an optional character string giving a method for computing covariances in the 
@@ -22,12 +22,12 @@
 #'@seealso \code{\link{cordf}}
 #'@export
 #'
-cor2df.fire <- function(vars, data, fire, threshold, use = "everything",method= c("pearson", "kendall", "spearman")){
-  yy <- d[,fire]
+cor2df.fire <- function(data, vars=NULL, fire, threshold, use = "everything",method= c("pearson", "kendall", "spearman")){
+  yy <- data[,fire]
   m <- apply(data[, vars],MARGIN =2,FUN=function(a) summary(glm(yy ~ a,,family=binomial(link="logit")))$aic)
   m <- data.frame(m)
   
-  u <- cordf(vars, data, threshold=threshold, use = use, method=method)
+  u <- cordf(data, vars, threshold=threshold, use = use, method=method)
   
   for (i in 1:nrow(u)){
     u$aic1[i] <-  m$m[rownames(m)==as.character(u$Var1[i])]

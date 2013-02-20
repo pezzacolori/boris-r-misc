@@ -3,7 +3,7 @@
 \title{True positive rate (sensitivity)}
 \usage{
   tpr(d, thr, depvar_name = "y",
-    ocurrence_colname = "presence")
+    occurrence_colname = "presence")
 }
 \arguments{
   \item{d}{dataframe}
@@ -13,7 +13,8 @@
   \item{depvar_name}{name of the column holding the model
   output}
 
-  \item{colname}{name of the column holding presence [0/1]}
+  \item{ocurrence_colname}{name of the column holding
+  presence [0/1]}
 }
 \value{
   true positive rate (sensitivity)

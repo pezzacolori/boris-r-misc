@@ -2,14 +2,16 @@
 \alias{cordf}
 \title{Correlations above a threshold}
 \usage{
-  cordf(vars, data, threshold = 0.6, use = "everything",
+  cordf(data, vars = NULL, threshold = 0.6,
+    use = "everything",
     method = c("pearson", "kendall", "spearman"))
 }
 \arguments{
-  \item{vars}{vector of column names or column numbers
-  holding the variables to analyse}
-
   \item{data}{dataframe with the data}
+
+  \item{vars}{vector of column names or column numbers
+  holding the variables to analyse. If not specified all
+  the columns will be used.}
 
   \item{threshold}{correlation threshold}
 

@@ -3,10 +3,8 @@
 
 
 #-------------------------------functions to summarize graphically data-------------------------------------
-#plots yearly data
-#data -> plot all the data
-#mean -> plot mean, sd (grey) and min/max
-#NAs  -> plot a line for a period of missing data (the different years are on y axis)
+
+
 #'Multiple plots of daily data over years
 #'
 #'Plots summaries of daily data in a yearly plot
@@ -21,7 +19,7 @@
 #'@return plot
 #'@export
 #'
-plotOverview <- function(data, vars, year='x',doy='y', what=c('data','mean','na'),rows=floor(length(vars)/cols+1), cols=4){
+yearplots <- function(data, vars, year='x',doy='y', what=c('data','mean','na'),rows=floor(length(vars)/cols+1), cols=4){
   library(plyr)
   d<-data
   if (year!='x') d$x<-d[,year]

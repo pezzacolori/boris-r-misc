@@ -1,8 +1,8 @@
-\name{getMEconstants}
-\alias{getMEconstants}
+\name{me.constants}
+\alias{me.constants}
 \title{Constants of a maxent model}
 \usage{
-  getMEconstants(m)
+  me.constants(m)
 }
 \arguments{
   \item{m}{maxent model}
@@ -12,6 +12,6 @@
 }
 \description{
   Extract the constants of a maxent model
-  (\code{\link{dismo::maxent}})
+  (\code{\link{maxent}})
 }
 

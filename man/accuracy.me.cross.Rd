@@ -8,10 +8,6 @@
 \arguments{
   \item{me}{maxent model}
 
-  \item{p}{presences}
-
-  \item{a}{absences}
-
   \item{abundance}{abundances, should be passed in same
   order as presences and same length}
 
@@ -29,7 +25,6 @@
 }
 \description{
   Evaluate according to multiple criteria a maxent model
-  (\code{\link{dismo::maxent}}) for training and test
-  dataset
+  (\code{\link{maxent}}) for training and test dataset
 }
 

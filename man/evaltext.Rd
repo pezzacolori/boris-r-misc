@@ -6,6 +6,23 @@
     enclos = if (is.list(envir) || is.pairlist(envir)) parent.frame() else baseenv(),
     sep = "")
 }
+\arguments{
+  \item{...}{character strings holding the code to be
+  evaluated}
+
+  \item{envir}{the environment in which expr is to be
+  evaluated. May also be NULL, a list, a data frame, a
+  pairlist or an integer as specified to sys.call.}
+
+  \item{enclos}{Relevant when envir is a (pair)list or a
+  data frame. Specifies the enclosure, i.e., where R looks
+  for objects not found in envir. This can be NULL
+  (interpreted as the base package environment, baseenv())
+  or an environment.}
+
+  \item{sep}{separator character to be used as in the
+  \code{\link{paste}} function}
+}
 \value{
   The result of evaluating the object: for an expression
   vector this is the result of evaluating the last element
@@ -13,8 +30,5 @@
 \description{
   This function allows to write in a shorter form the
   evaluation of a vector of characters.
-}
-\examples{
-evaltext("m = ",prefix,formulae[i], suffix)
 }
 

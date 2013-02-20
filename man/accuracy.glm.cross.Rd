@@ -8,10 +8,6 @@
 \arguments{
   \item{m}{glm model}
 
-  \item{p}{presences}
-
-  \item{a}{absences}
-
   \item{abundance}{abundances, should be passed in same
   order as presences and same length}
 

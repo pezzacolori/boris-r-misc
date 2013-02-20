@@ -1,8 +1,8 @@
-\name{plotOverview}
-\alias{plotOverview}
+\name{yearplots}
+\alias{yearplots}
 \title{Multiple plots of daily data over years}
 \usage{
-  plotOverview(data, vars, year = "x", doy = "y",
+  yearplots(data, vars, year = "x", doy = "y",
     what = c("data", "mean", "na"),
     rows = floor(length(vars)/cols + 1), cols = 4)
 }

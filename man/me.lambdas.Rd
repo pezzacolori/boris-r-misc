@@ -1,8 +1,8 @@
-\name{getMElambdas}
-\alias{getMElambdas}
+\name{me.lambdas}
+\alias{me.lambdas}
 \title{Extract lambda file values}
 \usage{
-  getMElambdas(m)
+  me.lambdas(m)
 }
 \arguments{
   \item{m}{maxent model}
@@ -12,6 +12,6 @@
 }
 \description{
   Filla a dataframe with the lambda file values of a maxent
-  model (\code{\link{dismo::maxent}})
+  model (\code{\link{maxent}})
 }
 

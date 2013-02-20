@@ -1,8 +1,8 @@
-\name{dependent}
-\alias{dependent}
+\name{dep.vars}
+\alias{dep.vars}
 \title{Dependent variable}
 \usage{
-  dependent(formula)
+  dep.vars(formula)
 }
 \arguments{
   \item{formula}{formula to inspect, either as formula
@@ -13,5 +13,9 @@
 }
 \description{
   Extract the name of the dependent variable from formula
+}
+\seealso{
+  \code{\link{all.vars}} from base package to get all
+  variables
 }
 

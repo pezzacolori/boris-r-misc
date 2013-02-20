@@ -7,11 +7,15 @@
 #' This function allows to write in a shorter form the evaluation of a 
 #' vector of characters.
 #' 
-#' @export
+#' @param ... character strings holding the code to be evaluated
+#' @param envir the environment in which expr is to be evaluated. May also be NULL, 
+#' a list, a data frame, a pairlist or an integer as specified to sys.call.
+#' @param enclos	Relevant when envir is a (pair)list or a data frame. Specifies the enclosure, 
+#' i.e., where R looks for objects not found in envir. This can be NULL (interpreted as the base 
+#' package environment, baseenv()) or an environment.
+#' @param sep separator character to be used as in the \code{\link{paste}} function
 #' @return The result of evaluating the object: for an expression vector 
 #' this is the result of evaluating the last element
-#' @examples
-#' evaltext("m = ",prefix,formulae[i], suffix)
 #' @export
 #' 
 evaltext<-function(...,envir = parent.frame(), 
@@ -44,8 +48,8 @@ rescale01 <- function(x, na.rm=FALSE){
 #'It is based on the \code{\link{cor}} function, but instead of a correlation matrix it returns
 #'a dataframe with the pairwise combinations above a threshold. 
 #'
-#'@param vars vector of column names or column numbers holding the variables to analyse
 #'@param data dataframe with the data
+#'@param vars vector of column names or column numbers holding the variables to analyse. If not specified all the columns will be used.
 #'@param threshold correlation threshold
 #'@param use  an optional character string giving a method for computing covariances in the 
 #'presence of missing values. This must be (an abbreviation of) one of the strings 
@@ -56,33 +60,34 @@ rescale01 <- function(x, na.rm=FALSE){
 #'@seealso \code{\link{cor2df}}
 #'@export
 #'
-cordf <- function(vars, data, threshold=0.6, use = "everything", method= c("pearson", "kendall", "spearman")){
-  d <- cor(data[, vars],use = use, method=method)
+cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c("pearson", "kendall", "spearman")){
+  if (!is.null(vars)) data <- data[, vars]
+  d <- cor(data, use = use, method=method)
   cor2df(d)
 }
 
 
-#'Correlated variable pairs 
+#'Variable pairs correlated above a threshold
 #'
 #'This function returns a dataframe with the variable pairs above a given correlation threshold
 #'
 #'It is based on the \code{\link{cor}} function, but instead of a correlation matrix it returns
 #'a dataframe with the pairwise combinations above a threshold. 
 #'
-#'@param cor.mat correlation matrix
+#'@param cor.matrix correlation matrix
 #'@param threshold correlation threshold
 #'@return a dataframe holding the variable pairs with a correlation higher than the specified threshold
 #'@seealso \code{\link{cordf}}
 #'@export
 #'
-cor2df <- function(cor.mat, threshold=0.6){
+cor2df <- function(cor.matrix, threshold=0.6){
   require(reshape2)
-  for (i in 1:ncol(cor.mat)){
-    for (j in 1:nrow(cor.mat)){
+  for (i in 1:ncol(cor.matrix)){
+    for (j in 1:nrow(cor.matrix)){
       if (j<=i) cor.mat[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
     }
   }
-  d_m <- melt(cor.mat, na.rm=T)  
+  d_m <- melt(cor.matrix, na.rm=T)  
   unique(d_m[abs(d_m$value)>threshold & !is.na(d_m$value),])
 }
 
@@ -94,11 +99,14 @@ cor2df <- function(cor.mat, threshold=0.6){
 #'
 #'@param formula formula to inspect, either as formula object or string
 #'@return name of the dependent variable
+#'@seealso  \code{\link{all.vars}} from base package to get all variables
 #'@export
 #'
-dependent <- function(formula){
+dep.vars <- function(formula){
   if (is.character(formula)) formula <- formula(formula)
-  as.character(attr(terms(formula),"variables")[[2]])
+  t <- terms(formula)
+  if (attr(t,"response")==0) NA 
+  else all.vars(parse(text = as.character(attr(t,"variables"))[[2]]))   #index 1 is the list
 }
 
 
@@ -108,11 +116,14 @@ dependent <- function(formula){
 #'
 #'@param formula formula to inspect, either as formula object or string
 #'@return name of the independent variable(s)
+#'@seealso  \code{\link{all.vars}} from base package to get all variables
 #'@export
 #'
-independents <- function(formula){
+ind.vars <- function(formula){
   if (is.character(formula)) formula <- formula(formula)
-  attr(terms(formula),"term.labels")
+  t <- terms(formula)  
+  i <- as.character(attr(t,"variables"))
+  i[(attr(t,"response")+2):length(i)]
 }
 
 
@@ -120,15 +131,21 @@ independents <- function(formula){
 #'
 #'Build the formulae (as strings) from variable names
 #'
-#'@param dep name of the dependent variable
-#'@param vars character vector with the names of the independent variables
+#'@param formula formula with all the terms (beyond optimal model)
+#'@param dep name of the dependent variable. If the \code{formula} is specified, this argument is not considered.
+#'@param vars character vector with the names of the independent variables (wihtout nullmodel term). If the \code{formula} is specified, this argument is not considered.
 #'@param nullmodelterm to specify in case of an always required fixed term (should not be included in the vars)
 #'@param minsize minimum size of the formula (number of independent variables)
 #'@param maxsize maximum size of the formula (number of independent variables). NULL means unrestricted.
 #'@return character vector hold the strings of the generated formulae.
 #'@export
 #'
-formulae <- function(dep, vars, nullmodelterm="1", minsize=1, maxsize=NULL){        #vars are without nullmodelterm   #nullmodelterm in case of fixed term    #polyDegree can be a vector specifying for each term of vars the degree
+formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL){        #vars are without nullmodelterm   #nullmodelterm in case of fixed term    #polyDegree can be a vector specifying for each term of vars the degree
+  if (!missing(formula)){
+    if (!is.null(dep) || !is.null(vars)) warning('Formula is specified and also dep and/or vars. Only the formula term will be considered.')
+    dep <- dep.vars(formula)
+    vars <- ind.vars(formula)    
+  }
   
   l=if (nullmodelterm!="") list(nullmodelterm) else list()
   for (i in 1:length(vars)){
@@ -142,26 +159,6 @@ formulae <- function(dep, vars, nullmodelterm="1", minsize=1, maxsize=NULL){    
 }
 
 
-#'Formulae from formula with all terms
-#'
-#'Build the formulae (as strings) from a formula holding all the terms
-#'
-#'@param formula formula with all the terms
-#'@param nullmodelterm to specify in case of an always required fixed term (should not be included in the input formula)
-#'@param minsize minimum size of the formula (number of independent variables)
-#'@param maxsize maximum size of the formula (number of independent variables). NULL means unrestricted.
-#'@return character vector hold the strings of the generated formulae.
-#'@export
-#'
-formulae2 <- function(formula, nullmodelterm="1", minsize=1, maxsize=NULL){        #vars are without nullmodelterm   #nullmodelterm in case of fixed term    #polyDegree can be a vector specifying for each term of vars the degree
-  dep <- dependents(formula)
-  vars <- independents(formula)
-  formulae(dep, vars, nullmodelterm, minsize)
-}
-
-
-
-
 #get variable combinations avoiding correlated variables
 formulaeCleaned <- function(dep, vars, data, nullmodelterm="1", minsize=1,maxsize=NULL, threshold=0.6, use = "everything",method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
   l=if (nullmodelterm!="") list(nullmodelterm) else list()
@@ -172,7 +169,7 @@ formulaeCleaned <- function(dep, vars, data, nullmodelterm="1", minsize=1,maxsiz
   }
   if (minsize>1) l <- l[sapply(l,length)>=minsize]
   if (!is.null(maxsize)) l <- l[sapply(l,length)<=maxsize]
-  cors<-getCor(vars=vars,data=data,threshold=threshold,use=use,method=method)
+  cors<-cordf(vars=vars,data=data,threshold=threshold,use=use,method=method)
   l<-cleanFormulae(formulae=l,cors=cors)
   sapply(l,function(x) paste(dep,"~",paste(x,collapse="+")))
 }
@@ -204,15 +201,15 @@ cleanFormulae <- function(formulae, cors){
 #'This is useful to link abundances to the model datasets, since the built models internally exclude those rows
 #'
 #'@param data dataframe with the data
-#'@param formula formula with dependent and independent variables
+#'@param selection column names or formula with dependent and independent variables
 #'@return A dataframe without NA's in the columns holded by independent variables of the formula
 #'@export
 #'
-without.na <- function (data, formulaORcolnames){
-  vars <- if (class(try(as.formula(formulaORcolnames)))=='formula')
-            independents(formula)
+without.na <- function (data, selection){
+  vars <- if (class(try(as.formula(selection)))=='formula')
+            ind.vars(selection)
           else
-            formulaORcolnames
+            selection
 
   for (var in vars){
     #     print(var)
@@ -220,8 +217,6 @@ without.na <- function (data, formulaORcolnames){
   }
   data
 }
-
-
 
 
 
@@ -304,6 +299,7 @@ fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
 
   x
 }
+
 
 #'Fill gaps in a dataframe with data from another dataframe
 #'

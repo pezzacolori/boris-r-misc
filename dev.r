@@ -4,9 +4,11 @@ dev_mode()
 
 load_all()
 
-check()
+test()
 
 document()
+
+check()
 
 build()
 build_win()

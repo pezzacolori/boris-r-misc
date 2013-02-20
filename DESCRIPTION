@@ -1,11 +1,19 @@
 Package: boris
 Title: 
-Description: Miscellaneous functions of boris. It contains general utils, model, plot and scientific utils. 
-              Probably in future to be splitted into multiple packages.
+Description: Miscellaneous functions of boris. It contains general utils,
+    model, plot and scientific utils. Probably in future to be splitted into
+    multiple packages.
 Version: 0.1
 Maintainer: Gianni Boris Pezzatti <boris.pezzatti@wsl.ch>
 Author: Gianni Boris Pezzatti
 License: GPL-3
+Imports:
+    plyr,
+    reshape2,
+    foreach,
+    zoo,
+    SDMTools,
+    dismo
 Suggests:
     testthat,
     roxygen2
