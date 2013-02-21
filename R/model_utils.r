@@ -43,8 +43,8 @@ glm.pseudoabsence <- function(formula, family=gaussian,data,...){
 maxent.formula <- function(formula, data, ...){
   #   x <- data[,attr(terms(formula(formula)),"term.labels")]
   #   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])]
-  x <- data[, dep.vars(formula)]
-  p <- data[, ind.vars(formula)]
+  x <- data[, ind.vars(formula)]
+  p <- data[, dep.vars(formula)]
   maxent(x,p,...)  
 }
 
