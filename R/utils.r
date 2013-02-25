@@ -26,9 +26,27 @@ evaltext<-function(...,envir = parent.frame(),
 }
 
 
+#' Change levels order
+#' 
+#' This function changes the oder of the levels of a factor
+#' 
+#' @param x factor
+#' @param neworder numeric or character vector specifiyng the order of the levels
+#' @param ordered logical specifying if the factor will be ordered or not (defaults to input factor class)
+#' @param ... other parameters to be passed to factor function (labels, exclude)
+#' @return factor with levels order changed according to specifications
+#' @export
+#' 
+orderfactor <- function(x, neworder, ordered=is.ordered(x), ...){
+  if (is.numeric(neworder)) neworder <- levels(x)[neworder]
+  
+  factor(x, levels=neworder, ordered=ordered, ...)
+}
+
+
 #' Rescale a vector of numbers between 0 and 1
 #' 
-#' This function resscales the values of a numeric vector
+#' This function rescales the values of a numeric vector
 #' between 0 and 1
 #' 
 #' @param x numeric vector to rescale

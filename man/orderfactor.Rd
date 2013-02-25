@@ -1,0 +1,26 @@
+\name{orderfactor}
+\alias{orderfactor}
+\title{Change levels order}
+\usage{
+  orderfactor(x, neworder, ordered = is.ordered(x), ...)
+}
+\arguments{
+  \item{x}{factor}
+
+  \item{neworder}{numeric or character vector specifiyng
+  the order of the levels}
+
+  \item{ordered}{logical specifying if the factor will be
+  ordered or not (defaults to input factor class)}
+
+  \item{...}{other parameters to be passed to factor
+  function (labels, exclude)}
+}
+\value{
+  factor with levels order changed according to
+  specifications
+}
+\description{
+  This function changes the oder of the levels of a factor
+}
+

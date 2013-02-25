@@ -14,7 +14,7 @@
   numeric vector with rescaled values
 }
 \description{
-  This function resscales the values of a numeric vector
+  This function rescales the values of a numeric vector
   between 0 and 1
 }
 

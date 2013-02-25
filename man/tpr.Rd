@@ -13,7 +13,7 @@
   \item{depvar_name}{name of the column holding the model
   output}
 
-  \item{ocurrence_colname}{name of the column holding
+  \item{occurrence_colname}{name of the column holding
   presence [0/1]}
 }
 \value{

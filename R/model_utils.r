@@ -231,11 +231,11 @@ accuracy.simple <- function(p, a, abundance=NULL){
              area= area,
              area.log=area.log,
              area.rel=area.rel,
-             area.log.rel=area.log.rel
+             area.log.rel=area.log.rel,
              #       area.max=area.max,
              #       area.log.max=area.log.max,
              #       intersect.auc.area.rel = auc.usual + area.rel -1,
-             #       intersect.auc.area.log.rel = auc.usual + area.log.rel -1,  
+             intersect.auc.bg.area.log.rel = auc.bg + area.log.rel -1 
     )
   }
   out
@@ -277,7 +277,7 @@ accuracy.me.simple <- function(me, p, a, abundance=NULL){
              #       area.max=area.max,
              #       area.log.max=area.log.max,
              #       intersect.auc.area.rel = auc.usual + area.rel -1,
-             #       intersect.auc.area.log.rel = auc.usual + area.log.rel -1,  
+             intersect.auc.bg.area.log.rel = a$intersect.auc.bg.area.log.rel,  
              aicc.me = a$aicc.me
     )
   }
@@ -312,7 +312,7 @@ accuracy.glm.simple <- function(m, p,a, abundance=NULL){
 #              area.max=area.max,
              #         area.log.max=area.log.max,  
              #         intersect.auc.area.rel = auc.usual + area.rel -1,
-             #         intersect.auc.area.log.rel = auc.usual + area.log.rel -1,
+             intersect.auc.bg.area.log.rel = a$intersect.auc.bg.area.log.rel,
              aic = m$aic,
              aicc = NA )#aicc(m)) #aicc(m))
   }
@@ -407,7 +407,7 @@ accuracy.glm.cross <- function(m, abundance, test, depvar_name, abundance_name){
 #'@param d dataframe 
 #'@param thr threshold value
 #'@param depvar_name name of the column holding the model output
-#'@param ocurrence_colname name of the column holding presence [0/1]
+#'@param occurrence_colname name of the column holding presence [0/1]
 #'@return true positive rate (sensitivity)
 #'@export
 #'  
