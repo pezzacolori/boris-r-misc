@@ -261,24 +261,14 @@ accuracy.me.simple <- function(me, p, a, abundance=NULL){
   a <- accuracy.simple(p,a, abundance)
   
   #put results in a vector with column names (for binding in data.frame later)              
-  out <- c(
-    n=a$n,
-    np=a$np,
-    auc=a$auc,
-    auc.me=auc.me,       
-    auc.bg=a$auc.bg)
+  out <- c(a[1:4],
+    auc.me=auc.me
+    )
   
   if (!is.null(abundance)){ 
     out <- c(out,
-             area= a$area,
-             area.log=a$area.log,
-             area.rel=a$area.rel,
-             area.log.rel=a$area.log.rel,
-             #       area.max=area.max,
-             #       area.log.max=area.log.max,
-             #       intersect.auc.area.rel = auc.usual + area.rel -1,
-             intersect.auc.bg.area.log.rel = a$intersect.auc.bg.area.log.rel,  
-             aicc.me = a$aicc.me
+             a[5:9],
+             aicc.me = aicc.me
     )
   }
   out
@@ -304,15 +294,6 @@ accuracy.glm.simple <- function(m, p,a, abundance=NULL){
   
   if (!is.null(abundance)){ 
     out <- c(out,
-             area= a$area,
-             area.log=a$area.log,
-             area.rel=a$area.rel,
-             area.log.rel=a$area.log.rel,
-#              area.min=area.min,
-#              area.max=area.max,
-             #         area.log.max=area.log.max,  
-             #         intersect.auc.area.rel = auc.usual + area.rel -1,
-             intersect.auc.bg.area.log.rel = a$intersect.auc.bg.area.log.rel,
              aic = m$aic,
              aicc = NA )#aicc(m)) #aicc(m))
   }
