@@ -484,14 +484,18 @@ bkr.for.tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presenc
 
 #' Extract lambda file values
 #' 
-#' Filla a dataframe with the lambda file values of a maxent model (\code{\link{maxent}})
+#' Fill a data frame with the lambda file values of a maxent model (\code{\link{maxent}})
 #' 
-#'@param m maxent model
+#'@param m either a maxent model or a character vector containing the lines of a maxent lambda file
 #'@return dataframe with the lambda values (what, lambda, min, max)
 #'@export
 #' 
 me.lambdas <- function(m){   #m is a maxent model
-  m.par <- m@lambdas[1:(length(m@lambdas)-4)]
+  m.par <- if (class(m)[1]=='MaxEnt')  
+                m@lambdas[1:(length(m@lambdas)-4)]
+           else
+                m[1:(length(m)-4)]
+
   tmp <- sapply(m.par, function(x) strsplit(x,','), USE.NAMES=F)   # split with comma
   lambdas <- data.frame(what=NA, lambda=NA,min=NA,max=NA)
   for (i in 1:length(tmp)) {
@@ -506,60 +510,20 @@ me.lambdas <- function(m){   #m is a maxent model
 }  
 
 
-#' Count the number of Maxent parameters (with lambda!=0) 
-#' 
-#' Counts the number of parameters (with lambda!=0)  of a maxent model (\code{\link{maxent}})
-#' 
-#'@param m maxent model
-#'@return number of parameters
-#'@export
-#' 
-me.parNum <- function(m){
-  l <- me.lambdas(m)
-  nrow(l[l$lambda!=0.0,]) 
-}
-
-#calculate aicc
-aicc.me <- function(m, d, presence.name='presence', mpfr.precision=100){
-  if (missing(d)){
-    p <- m@presence
-    a <- m@absence
-    p[,presence.name] <- 1
-    a[,presence.name] <- 0
-    d <- rbind(p,a)
-  }
-  k <- me.parNum(m)
-  n <- nrow(d)
-  if (k==0 || k>n){
-    NA
-  }else{
-    #     library(Rmpfr)
-    #     mraw <- predict(m, d, progress='text', args=c("outputformat=raw"))
-    #     mraw.s <- mpfr(mraw/sum(mraw),mpfr.precision)
-    # #     mraw.s <- mraw/sum(mraw)
-    #     #   print(sum(mraw.s))
-    #       
-    #     ll <- as.real( log(prod(mraw.s[d[,presence.name]==1])) )
-    # #     t <- prod(mraw.s[d[,presence.name]==1]*exp(8))   #prod(mraw.s[d$fire==1]*exp(8))
-    # #     ll <- log(t) -8*length(mraw.s)
-    #     
-    #     2*k -2*ll + 2*k*(k+1)/(n-k-1)
-    NA
-  }
-}
-
-
 
 #' Constants of a maxent model
 #' 
 #' Extract the constants of a maxent model (\code{\link{maxent}})
 #' 
-#'@param m maxent model
+#'@param m either a maxent model or a character vector containing the lines of a maxent lambda file
 #'@return dataframe holding the constants (what, value)
 #'@export
 #' 
 me.constants <- function(m){   #m is a maxent model
-  m.par <- m@lambdas[(length(m@lambdas)-3) : length(m@lambdas)]
+  m.par <- if (class(m)[1]=='MaxEnt')  
+              m@lambdas[(length(m@lambdas)-3) : length(m@lambdas)]
+          else
+              m[(length(m)-3) : length(m)]
   tmp <- sapply(m.par, function(x) strsplit(x,','), USE.NAMES=F)
   constants <- data.frame(what=NA, value=NA)
   for (i in 1:length(tmp)) {
@@ -570,13 +534,15 @@ me.constants <- function(m){   #m is a maxent model
   constants
 }
 
+
+
 #calculate new values of maxent
 #' Predict new values of a maxent model
 #' 
 #' Calculates new values of a maxent model (\code{\link{maxent}})
 #' 
-#'@param m maxent model
-#'@param data frame holding the data
+#'@param m either a maxent model or a character vector containing the lines of a maxent lambda file
+#'@param data data frame holding the data
 #'@return predictions
 #'@export
 #' 
@@ -626,6 +592,44 @@ me.predict <- function(m, data){
   out
 }
 
+#calculate aicc
+aicc.me <- function(m, d, presence.name='presence', mpfr.precision=100){
+  if (missing(d)){
+    p <- m@presence
+    a <- m@absence
+    p[,presence.name] <- 1
+    a[,presence.name] <- 0
+    d <- rbind(p,a)
+  }
+  k <- me.parNum(m)
+  n <- nrow(d)
+  if (k==0 || k>n){
+    NA
+  }else{
+    #     library(Rmpfr)
+    #     mraw <- predict(m, d, progress='text', args=c("outputformat=raw"))
+    #     mraw.s <- mpfr(mraw/sum(mraw),mpfr.precision)
+    # #     mraw.s <- mraw/sum(mraw)
+    #     #   print(sum(mraw.s))
+    #       
+    #     ll <- as.real( log(prod(mraw.s[d[,presence.name]==1])) )
+    # #     t <- prod(mraw.s[d[,presence.name]==1]*exp(8))   #prod(mraw.s[d$fire==1]*exp(8))
+    # #     ll <- log(t) -8*length(mraw.s)
+    #     
+    #     2*k -2*ll + 2*k*(k+1)/(n-k-1)
+    NA
+  }
+}
 
-
-
+#' Count the number of Maxent parameters (with lambda!=0) 
+#' 
+#' Counts the number of parameters (with lambda!=0)  of a maxent model (\code{\link{maxent}})
+#' 
+#'@param m maxent model
+#'@return number of parameters
+#'@export
+#' 
+me.parNum <- function(m){
+  l <- me.lambdas(m)
+  nrow(l[l$lambda!=0.0,]) 
+}

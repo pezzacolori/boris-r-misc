@@ -5,9 +5,10 @@
   me.predict(m, data)
 }
 \arguments{
-  \item{m}{maxent model}
+  \item{m}{either a maxent model or a character vector
+  containing the lines of a maxent lambda file}
 
-  \item{data}{frame holding the data}
+  \item{data}{data frame holding the data}
 }
 \value{
   predictions

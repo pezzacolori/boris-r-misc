@@ -5,13 +5,14 @@
   me.lambdas(m)
 }
 \arguments{
-  \item{m}{maxent model}
+  \item{m}{either a maxent model or a character vector
+  containing the lines of a maxent lambda file}
 }
 \value{
   dataframe with the lambda values (what, lambda, min, max)
 }
 \description{
-  Filla a dataframe with the lambda file values of a maxent
+  Fill a data frame with the lambda file values of a maxent
   model (\code{\link{maxent}})
 }
 
