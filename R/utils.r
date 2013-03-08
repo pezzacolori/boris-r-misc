@@ -102,7 +102,7 @@ cor2df <- function(cor.matrix, threshold=0.6){
   require(reshape2)
   for (i in 1:ncol(cor.matrix)){
     for (j in 1:nrow(cor.matrix)){
-      if (j<=i) cor.mat[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
+      if (j<=i) cor.matrix[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
     }
   }
   d_m <- melt(cor.matrix, na.rm=T)  
@@ -205,7 +205,7 @@ formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1,
 formulae.cleaned <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL, data, threshold=0.6, use = "everything", method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
   t <- formulae(formula, dep, vars, nullmodelterm, minsize, maxsize)
   l <- t$vars
-  cors<-cordf(vars=vars,data=data,threshold=threshold,use=use,method=method)
+  cors<-cordf(data=data, vars=vars, threshold=threshold, use=use, method=method)
   l<-cleanFormulae(formulae=l,cors=cors)
   f=sapply(l,function(x) paste(dep,"~",paste(x,collapse="+")))
   list(formulae=f, vars=l)
