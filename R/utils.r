@@ -173,23 +173,41 @@ formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1,
   }
   if (minsize>1) l <- l[sapply(l,length)>=minsize]
   if (!is.null(maxsize)) l <- l[sapply(l,length)<=maxsize]
-  sapply(l,function(x) paste(dep,"~",paste(x,collapse="+")))
+  f=sapply(l,function(x) paste(dep,"~",paste(x,collapse="+")))
+  list(formulae=f, vars=l)
 }
 
 
 #get variable combinations avoiding correlated variables
-formulaeCleaned <- function(dep, vars, data, nullmodelterm="1", minsize=1,maxsize=NULL, threshold=0.6, use = "everything",method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
-  l=if (nullmodelterm!="") list(nullmodelterm) else list()
-  for (i in 1:length(vars)){
-    f = combn(vars,i,simplify=F)#,FUN=function(x) cleanFormulae(x,data))
-    if (!nullmodelterm %in% c("","1")) f=lapply(f,function(x) c(nullmodelterm,x))  #for (x in f) {x[[1]] = c(nullmodelterm,x[[1]])}#paste(nullmodelterm,f,sep=" + ")
-    l = c(l, f)
-  }
-  if (minsize>1) l <- l[sapply(l,length)>=minsize]
-  if (!is.null(maxsize)) l <- l[sapply(l,length)<=maxsize]
+#'Formulae from variable combinations without correlated variables
+#'
+#'Build the formulae (as strings) from variable names
+#'
+#'@param formula formula with all the terms (beyond optimal model)
+#'@param dep name of the dependent variable. If the \code{formula} is specified, this argument is not considered.
+#'@param vars character vector with the names of the independent variables (wihtout nullmodel term). If the \code{formula} is specified, this argument is not considered.
+#'@param nullmodelterm to specify in case of an always required fixed term (should not be included in the vars)
+#'@param minsize minimum size of the formula (number of independent variables)
+#'@param maxsize maximum size of the formula (number of independent variables). NULL means unrestricted.
+#'@param threshold correlation threshold
+#'@param use  an optional character string giving a method for computing covariances in the 
+#'presence of missing values. This must be (an abbreviation of) one of the strings 
+#'"everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs"
+#'@param method a character string indicating which correlation coefficient 
+#'is to be computed. One of "pearson" (default), "kendall", or "spearman", can be abbreviated
+#'@return list of \itemize{
+#'\item formulae: character vector hold the strings of the generated formulae
+#'\item vars: list of variables names combinations 
+#'} 
+#'@export
+#'
+formulae.cleaned <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL, threshold=0.6, use = "everything", method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
+  t <- formulae(formula, dep, vars, nullmodelterm, minsize, maxsize)
+  l <- t$vars
   cors<-cordf(vars=vars,data=data,threshold=threshold,use=use,method=method)
   l<-cleanFormulae(formulae=l,cors=cors)
-  sapply(l,function(x) paste(dep,"~",paste(x,collapse="+")))
+  f=sapply(l,function(x) paste(dep,"~",paste(x,collapse="+")))
+  list(formulae=f, vars=l)
 }
 
 #eliminate the variable combinations that contains 2 correlated variables, according to cors 
