@@ -14,3 +14,5 @@ build()
 build_win()
 
 install()
+
+dev_mode()

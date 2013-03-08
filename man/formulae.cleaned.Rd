@@ -3,7 +3,7 @@
 \title{Formulae from variable combinations without correlated variables}
 \usage{
   formulae.cleaned(formula, dep = NULL, vars = NULL,
-    nullmodelterm = "1", minsize = 1, maxsize = NULL,
+    nullmodelterm = "1", minsize = 1, maxsize = NULL, data,
     threshold = 0.6, use = "everything",
     method = c("pearson", "kendall", "spearman"))
 }
@@ -28,6 +28,9 @@
 
   \item{maxsize}{maximum size of the formula (number of
   independent variables). NULL means unrestricted.}
+
+  \item{data}{dataframe holding the dataset with the column
+  names corresponding to vars}
 
   \item{threshold}{correlation threshold}
 

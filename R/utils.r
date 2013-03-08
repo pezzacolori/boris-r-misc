@@ -189,6 +189,7 @@ formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1,
 #'@param nullmodelterm to specify in case of an always required fixed term (should not be included in the vars)
 #'@param minsize minimum size of the formula (number of independent variables)
 #'@param maxsize maximum size of the formula (number of independent variables). NULL means unrestricted.
+#'@param data dataframe holding the dataset with the column names corresponding to vars
 #'@param threshold correlation threshold
 #'@param use  an optional character string giving a method for computing covariances in the 
 #'presence of missing values. This must be (an abbreviation of) one of the strings 
@@ -201,7 +202,7 @@ formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1,
 #'} 
 #'@export
 #'
-formulae.cleaned <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL, threshold=0.6, use = "everything", method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
+formulae.cleaned <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL, data, threshold=0.6, use = "everything", method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
   t <- formulae(formula, dep, vars, nullmodelterm, minsize, maxsize)
   l <- t$vars
   cors<-cordf(vars=vars,data=data,threshold=threshold,use=use,method=method)
