@@ -448,9 +448,9 @@ bkr <- function(d,thr, depvar_name='y'){
 #'@return false positive rate
 #'@export
 #'  
-fpr.for.tpr <- function(d,tp.rate, depvar_name='y', occurrence_colname='presence'){     
+fpr.for.tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
   d <- d[order(d[,depvar_name]),]
-  thr <- approx( tpr(d,d[,depvar_name], depvar_name, occurrence_colname), d[,depvar_name] ,tp.rate, rule=2)[, depvar_name]
+  thr <- approx( tpr(d, d[,depvar_name], depvar_name, occurrence_colname), d[,depvar_name] ,tp.rate, rule=2)$y
   fpr(d, thr,  depvar_name, occurrence_colname)
 }
 
@@ -466,7 +466,7 @@ fpr.for.tpr <- function(d,tp.rate, depvar_name='y', occurrence_colname='presence
 #'  
 bkr.for.tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
   d <- d[order(d[,depvar_name]),]
-  thr <- approx(tpr(d,d[, depvar_name], depvar_name, occurrence_colname), d[,depvar_name], tp.rate, rule=2)[, depvar_name]
+  thr <- approx(tpr(d, d[, depvar_name], depvar_name, occurrence_colname), d[,depvar_name], tp.rate, rule=2)$y
   #   Vectorize(function(x,thr) nrow(x[x$y>=thr,]),'thr' )(d, thr)/ nrow(d)
   
   bkr(d, thr, depvar_name)
