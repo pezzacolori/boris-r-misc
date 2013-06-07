@@ -501,9 +501,9 @@ me.lambdas <- function(m){   #m is a maxent model
   for (i in 1:length(tmp)) {
     x <- tmp[[i]]                                               #read rows and put into correct variables
     lambdas[i,1]<-x[1]
-    lambdas[i,2]<-as.real(x[2])
-    lambdas[i,3]<-as.real(x[3])
-    lambdas[i,4]<-as.real(x[4])
+    lambdas[i,2]<-as.double(x[2])
+    lambdas[i,3]<-as.double(x[3])
+    lambdas[i,4]<-as.double(x[4])
     
   }
   lambdas
@@ -529,7 +529,7 @@ me.constants <- function(m){   #m is a maxent model
   for (i in 1:length(tmp)) {
     x <- tmp[[i]]
     constants[i,1]<-x[1]
-    constants[i,2]<-as.real(x[2])    
+    constants[i,2]<-as.double(x[2])    
   }
   constants
 }
@@ -612,7 +612,7 @@ aicc.me <- function(m, d, presence.name='presence', mpfr.precision=100){
     # #     mraw.s <- mraw/sum(mraw)
     #     #   print(sum(mraw.s))
     #       
-    #     ll <- as.real( log(prod(mraw.s[d[,presence.name]==1])) )
+    #     ll <- as.double( log(prod(mraw.s[d[,presence.name]==1])) )
     # #     t <- prod(mraw.s[d[,presence.name]==1]*exp(8))   #prod(mraw.s[d$fire==1]*exp(8))
     # #     ll <- log(t) -8*length(mraw.s)
     #     

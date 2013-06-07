@@ -31,7 +31,7 @@ evaltext<-function(...,envir = parent.frame(),
 #' This function changes the oder of the levels of a factor
 #' 
 #' @param x factor
-#' @param neworder numeric or character vector specifiyng the order of the levels
+#' @param neworder numeric or character vector specifiyng the new order of the levels
 #' @param ordered logical specifying if the factor will be ordered or not (defaults to input factor class)
 #' @param ... other parameters to be passed to factor function (labels, exclude)
 #' @return factor with levels order changed according to specifications

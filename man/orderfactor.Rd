@@ -8,7 +8,7 @@
   \item{x}{factor}
 
   \item{neworder}{numeric or character vector specifiyng
-  the order of the levels}
+  the new order of the levels}
 
   \item{ordered}{logical specifying if the factor will be
   ordered or not (defaults to input factor class)}
