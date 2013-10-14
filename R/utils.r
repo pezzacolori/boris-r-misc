@@ -214,17 +214,17 @@ formulae.cleaned <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", mi
 #eliminate the variable combinations that contains 2 correlated variables, according to cors 
 cleanFormulae <- function(formulae, cors){
   for (i in 1:length(formulae)){
-    f<-formulae[i][[1]]
+    f<-formulae[[i]]
     if (nrow(cors)>0){
       for (k in 1:nrow(cors)){
         if (cors[k,1] %in% f & cors[k,2] %in% f){
-          formulae[i]=NULL
+          formulae[[i]]=NA
           break
         } 
       }
     }
   }
-  formulae[sapply(formulae,function(x) !is.null(x))]
+  formulae[sapply(formulae,function(x) !is.na(x[1]))]
 }
 
 
