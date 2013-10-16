@@ -24,6 +24,8 @@ yearplots <- function(data, vars, year='x',doy='y', what=c('data','mean','na'),r
   d<-data
   if (year!='x') d$x<-d[,year]
   if (doy!='y') d$y<-d[,doy]
+  d <- d[,c('x','y',vars)]
+  
   op <- par(no.readonly=T)
   par(mfrow=c(rows,cols))
   par(mar=c(2,4,1,1))
@@ -42,11 +44,11 @@ yearplots <- function(data, vars, year='x',doy='y', what=c('data','mean','na'),r
       par(new=F)
     }
   } else if (what[1]=='mean'){
-    s <- ddply(d,.(y),mean)
-    sd <- ddply(d,.(y),function(x) sd(x))
+    s <- ddply(d,.(y), numcolwise(function(x) mean(x, na.rm=T)))
+    sd <- ddply(d,.(y),numcolwise(function(x) sd(x, na.rm=T)))
     #     print(sd)
-    mx <- ddply(d,.(y),numcolwise(max))
-    mn <- ddply(d,.(y),numcolwise(min))
+    mx <- ddply(d,.(y),numcolwise(function(x) max(x, na.rm=T)))
+    mn <- ddply(d,.(y),numcolwise(function(x) min(x, na.rm=T)))
     #     print(mn)
     q90 <- ddply(d,.(y),numcolwise(function(x) quantile(x,0.90,na.rm=T)))
     #     print(q90)
