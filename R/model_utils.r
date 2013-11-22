@@ -43,8 +43,9 @@ glm.pseudoabsence <- function(formula, family=gaussian,data,...){
 maxent.formula <- function(formula, data, ...){
   #   x <- data[,attr(terms(formula(formula)),"term.labels")]
   #   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])]
-  x <- data[, ind.vars(formula)]
-  p <- data[, dep.vars(formula)]
+  x <- data[, ind.vars(formula), drop=F]
+  p <- data[, dep.vars(formula), drop=F]  #  need drop=F, since otherwise, when only a predictor is used, 
+                                          # the dataframe is transformed in vector and maxent function fails
   maxent(x,p,...)  
 }
 
