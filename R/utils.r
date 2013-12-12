@@ -268,9 +268,14 @@ without.na <- function (data, selection){
 #'@export
 #'
 calcArea <- function (x, y){
-  bases <- abs(x[-1]-x[-length(x)])
-  heights <- abs(y[-1]-y[-length(y)])
-  baseheights <- pmin(y[-1],y[-length(y)])
+  if (length(x) != length(y))
+    stop("x and y must have the same length")
+  if (length(unique(x)) < 2)
+    return(NA) 
+  
+  bases <-  abs(diff(x))    #    abs(x[-1]-x[-length(x)])
+  heights <- abs(diff(y))   #     abs(y[-1]-y[-length(y)])
+  baseheights <- pmin(y[-1], y[-length(y)])
   tria <- heights * bases /2
   #   boxes <- y[-c(1,length(y))] * bases[-1]       #(-length(bases))
   boxes <- baseheights * bases   #2012.04.12

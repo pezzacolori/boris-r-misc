@@ -186,11 +186,11 @@ accuracy.simple <- function(p, a, abundance=NULL){
       area.log <-NA
     } else{   
 #       tp.rate <- 1:length(p)
-#       tp.rate <- rescale01(tp.rate) #wrong     
+#       tp.rate <- rescale01(tp.rate) #wrong  dic 2013   bp 
       tp.rate <- c(0, 1:length(p)/length(p))    #add zero to have start point
       
       abundance[is.na(abundance)] <- 0              #replace missing abundances with 0 ha
-      mx.csum <-  sum(abundance, na.rm=T) # max(cumsum(abundance))  ??
+      mx.csum <-  sum(abundance, na.rm=T)           # max(cumsum(abundance))  ??
       mx.log.csum <- sum(log(abundance+1), na.rm=T)  #max(cumsum(log(abundance+1))) ??
       
       #-------
@@ -212,7 +212,7 @@ accuracy.simple <- function(p, a, abundance=NULL){
       w.log.max <- c(0, cumsum(rev(log(abundance.ord+1)))/mx.log.csum)    #add zero to have start point
       area.log.max <- calcArea(tp.rate, w.log.max)      
       
-      w.log <- cumsum(rev(log(abundance+1)))/mx.log.csum
+      w.log <- c(0, cumsum(rev(log(abundance+1)))/mx.log.csum)     #add zero to have start point
       area.log <- calcArea(tp.rate, w.log)
       
       area.log.rel <- (area.log-area.log.min)/(area.log.max-area.log.min)      
