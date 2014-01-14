@@ -2,5 +2,5 @@
 #' 
 #' @name boris
 #' @docType package
-#' @import plyr reshape2 foreach zoo SDMTools dismo
+#' @import plyr reshape2 stringr foreach zoo SDMTools dismo
 NULL

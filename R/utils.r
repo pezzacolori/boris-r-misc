@@ -403,3 +403,40 @@ getArgs = function() {
   } 
 }
 
+
+
+
+#'Reads a fixed width formatted data with the header in the same format
+#'
+#'The base function \code{\link{read.fwf}} can read fixed width formatted data, however when including an header,
+#'this needs to have another format (e.g. tab-separated, as specified by the sep argument).
+#'This function allows to read data with the header specifically in the same fixed width format as the data.
+#'
+#'@param file name of the file.
+#'@param widths integer vector, giving the widths of the fixed-width fields (of one line).
+#'@param ... further arguments to be passed to \code{\link{read.fwf}}.
+#'@return A data.frame as produced by \code{\link{read.fwf}} which is called internally.
+#'@export
+#'
+read.fwf.fixedheader <- function(file, widths, ...){
+   
+  cols <- read.fwf(file,
+                   widths=widths,
+                   header=F,
+                   n=1, stringsAsFactors=F)
+  cols <- sapply(cols[1,,drop=T], str_trim)
+  
+  d <- read.fwf(file,
+                widths=widths,
+                header=F,
+                skip=1,
+                col.names=cols, ...)
+  d
+}
+
+
+
+
+
+
+
