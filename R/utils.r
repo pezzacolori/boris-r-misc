@@ -81,7 +81,7 @@ rescale01 <- function(x, na.rm=FALSE){
 cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c("pearson", "kendall", "spearman")){
   if (!is.null(vars)) data <- data[, vars]
   d <- cor(data, use = use, method=method)
-  cor2df(d)
+  cor2df(d, threshold)
 }
 
 
