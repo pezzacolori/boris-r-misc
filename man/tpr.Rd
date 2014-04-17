@@ -2,8 +2,7 @@
 \alias{tpr}
 \title{True positive rate (sensitivity)}
 \usage{
-  tpr(d, thr, depvar_name = "y",
-    occurrence_colname = "presence")
+tpr(d, thr, depvar_name = "y", occurrence_colname = "presence")
 }
 \arguments{
   \item{d}{dataframe}
@@ -17,9 +16,9 @@
   presence [0/1]}
 }
 \value{
-  true positive rate (sensitivity)
+true positive rate (sensitivity)
 }
 \description{
-  True positive rate (sensitivity)
+True positive rate (sensitivity)
 }
 

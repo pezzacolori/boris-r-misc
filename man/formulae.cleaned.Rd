@@ -2,10 +2,9 @@
 \alias{formulae.cleaned}
 \title{Formulae from variable combinations without correlated variables}
 \usage{
-  formulae.cleaned(formula, dep = NULL, vars = NULL,
-    nullmodelterm = "1", minsize = 1, maxsize = NULL, data,
-    threshold = 0.6, use = "everything",
-    method = c("pearson", "kendall", "spearman"))
+formulae.cleaned(formula, dep = NULL, vars = NULL, nullmodelterm = "1",
+  minsize = 1, maxsize = NULL, data, threshold = 0.6,
+  use = "everything", method = c("pearson", "kendall", "spearman"))
 }
 \arguments{
   \item{formula}{formula with all the terms (beyond optimal
@@ -46,11 +45,11 @@
   abbreviated}
 }
 \value{
-  list of \itemize{ \item formulae: character vector hold
-  the strings of the generated formulae \item vars: list of
-  variables names combinations }
+list of \itemize{ \item formulae: character vector hold the
+strings of the generated formulae \item vars: list of
+variables names combinations }
 }
 \description{
-  Build the formulae (as strings) from variable names
+Build the formulae (as strings) from variable names
 }
 

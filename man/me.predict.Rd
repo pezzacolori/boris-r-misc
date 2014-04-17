@@ -2,7 +2,7 @@
 \alias{me.predict}
 \title{Predict new values of a maxent model}
 \usage{
-  me.predict(m, data)
+me.predict(m, data)
 }
 \arguments{
   \item{m}{either a maxent model or a character vector
@@ -11,10 +11,10 @@
   \item{data}{data frame holding the data}
 }
 \value{
-  predictions
+predictions
 }
 \description{
-  Calculates new values of a maxent model
-  (\code{\link{maxent}})
+Calculates new values of a maxent model
+(\code{\link{maxent}})
 }
 

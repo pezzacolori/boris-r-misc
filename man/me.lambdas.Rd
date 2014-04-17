@@ -2,17 +2,17 @@
 \alias{me.lambdas}
 \title{Extract lambda file values}
 \usage{
-  me.lambdas(m)
+me.lambdas(m)
 }
 \arguments{
   \item{m}{either a maxent model or a character vector
   containing the lines of a maxent lambda file}
 }
 \value{
-  dataframe with the lambda values (what, lambda, min, max)
+dataframe with the lambda values (what, lambda, min, max)
 }
 \description{
-  Fill a data frame with the lambda file values of a maxent
-  model (\code{\link{maxent}})
+Fill a data frame with the lambda file values of a maxent
+model (\code{\link{maxent}})
 }
 

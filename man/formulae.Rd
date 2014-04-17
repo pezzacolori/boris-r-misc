@@ -2,8 +2,8 @@
 \alias{formulae}
 \title{Formulae from variable combinations}
 \usage{
-  formulae(formula, dep = NULL, vars = NULL,
-    nullmodelterm = "1", minsize = 1, maxsize = NULL)
+formulae(formula, dep = NULL, vars = NULL, nullmodelterm = "1",
+  minsize = 1, maxsize = NULL)
 }
 \arguments{
   \item{formula}{formula with all the terms (beyond optimal
@@ -28,10 +28,10 @@
   independent variables). NULL means unrestricted.}
 }
 \value{
-  character vector hold the strings of the generated
-  formulae.
+character vector hold the strings of the generated
+formulae.
 }
 \description{
-  Build the formulae (as strings) from variable names
+Build the formulae (as strings) from variable names
 }
 

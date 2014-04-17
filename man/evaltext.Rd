@@ -2,9 +2,8 @@
 \alias{evaltext}
 \title{Concatenate and evaluate string expressions in a specified environment}
 \usage{
-  evaltext(..., envir = parent.frame(),
-    enclos = if (is.list(envir) || is.pairlist(envir)) parent.frame() else baseenv(),
-    sep = "")
+evaltext(..., envir = parent.frame(), enclos = if (is.list(envir) ||
+  is.pairlist(envir)) parent.frame() else baseenv(), sep = "")
 }
 \arguments{
   \item{...}{character strings holding the code to be
@@ -24,11 +23,11 @@
   \code{\link{paste}} function}
 }
 \value{
-  The result of evaluating the object: for an expression
-  vector this is the result of evaluating the last element
+The result of evaluating the object: for an expression
+vector this is the result of evaluating the last element
 }
 \description{
-  This function allows to write in a shorter form the
-  evaluation of a vector of characters.
+This function allows to write in a shorter form the
+evaluation of a vector of characters.
 }
 

@@ -2,8 +2,7 @@
 \alias{accuracy.glm.cross}
 \title{Accuracy function to evaluate a gml model for training and test dataset}
 \usage{
-  accuracy.glm.cross(m, abundance, test, depvar_name,
-    abundance_name)
+accuracy.glm.cross(m, abundance, test, depvar_name, abundance_name)
 }
 \arguments{
   \item{m}{glm model}
@@ -20,11 +19,11 @@
   the test dataframe}
 }
 \value{
-  a vector of named arguments (n=number data, np=numer of
-  presences, )
+a vector of named arguments (n=number data, np=numer of
+presences, )
 }
 \description{
-  Evaluate according to multiple criteria a gml model for
-  training and test dataset
+Evaluate according to multiple criteria a gml model for
+training and test dataset
 }
 

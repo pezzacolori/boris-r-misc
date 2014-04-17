@@ -2,7 +2,7 @@
 \alias{orderfactor}
 \title{Change levels order}
 \usage{
-  orderfactor(x, neworder, ordered = is.ordered(x), ...)
+orderfactor(x, neworder, ordered = is.ordered(x), ...)
 }
 \arguments{
   \item{x}{factor}
@@ -17,10 +17,10 @@
   function (labels, exclude)}
 }
 \value{
-  factor with levels order changed according to
-  specifications
+factor with levels order changed according to
+specifications
 }
 \description{
-  This function changes the oder of the levels of a factor
+This function changes the oder of the levels of a factor
 }
 

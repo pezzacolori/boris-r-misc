@@ -2,9 +2,8 @@
 \alias{cordf}
 \title{Correlations above a threshold}
 \usage{
-  cordf(data, vars = NULL, threshold = 0.6,
-    use = "everything",
-    method = c("pearson", "kendall", "spearman"))
+cordf(data, vars = NULL, threshold = 0.6, use = "everything",
+  method = c("pearson", "kendall", "spearman"))
 }
 \arguments{
   \item{data}{dataframe with the data}
@@ -27,19 +26,19 @@
   abbreviated}
 }
 \value{
-  a dataframe holding the variable pairs with a correlation
-  higher than the specified threshold
+a dataframe holding the variable pairs with a correlation
+higher than the specified threshold
 }
 \description{
-  This function returns a dataframe with the variable pairs
-  above a given correlation threshold
+This function returns a dataframe with the variable pairs
+above a given correlation threshold
 }
 \details{
-  It is based on the \code{\link{cor}} function, but
-  instead of a correlation matrix it returns a dataframe
-  with the pairwise combinations above a threshold.
+It is based on the \code{\link{cor}} function, but instead
+of a correlation matrix it returns a dataframe with the
+pairwise combinations above a threshold.
 }
 \seealso{
-  \code{\link{cor2df}}
+\code{\link{cor2df}}
 }
 

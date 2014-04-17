@@ -4,6 +4,6 @@
 \alias{boris-package}
 \title{boris}
 \description{
-  boris
+boris
 }
 

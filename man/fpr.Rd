@@ -2,8 +2,7 @@
 \alias{fpr}
 \title{False positive rate (1- specificity)}
 \usage{
-  fpr(d, thr, depvar_name = "y",
-    ocurrence_colname = "presence")
+fpr(d, thr, depvar_name = "y", ocurrence_colname = "presence")
 }
 \arguments{
   \item{d}{dataframe}
@@ -17,9 +16,9 @@
   presence [0/1]}
 }
 \value{
-  false positive rate (1- specificity)
+false positive rate (1- specificity)
 }
 \description{
-  False positive rate (1- specificity)
+False positive rate (1- specificity)
 }
 

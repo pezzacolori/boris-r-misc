@@ -2,13 +2,13 @@
 \alias{getArgs}
 \title{Extract and Load command line arguments into session}
 \usage{
-  getArgs()
+getArgs()
 }
 \value{
-  Nothing
+Nothing
 }
 \description{
-  Loads the command line arguments supplied when this R
-  session was invoked into the session environment.
+Loads the command line arguments supplied when this R
+session was invoked into the session environment.
 }
 

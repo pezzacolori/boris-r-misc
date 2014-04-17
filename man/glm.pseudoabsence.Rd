@@ -2,7 +2,7 @@
 \alias{glm.pseudoabsence}
 \title{GLM with pseudoabsences}
 \usage{
-  glm.pseudoabsence(formula, family = gaussian, data, ...)
+glm.pseudoabsence(formula, family = gaussian, data, ...)
 }
 \arguments{
   \item{formula}{formula with dependent and independent
@@ -20,14 +20,14 @@
   \item{...}{additional parameters to pass to glm}
 }
 \value{
-  glm model
+glm model
 }
 \description{
-  Wrapper around \code{\link{glm}} to use a pseudoabsence
-  approach, substituting absences (zeros's) with the
-  prevalence (mean occurrence).
+Wrapper around \code{\link{glm}} to use a pseudoabsence
+approach, substituting absences (zeros's) with the
+prevalence (mean occurrence).
 }
 \seealso{
-  \code{\link{glm}}
+\code{\link{glm}}
 }
 

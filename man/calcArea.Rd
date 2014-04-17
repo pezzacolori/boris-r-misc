@@ -2,7 +2,7 @@
 \alias{calcArea}
 \title{Area under a curve}
 \usage{
-  calcArea(x, y)
+calcArea(x, y)
 }
 \arguments{
   \item{x}{vector holding the x values}
@@ -10,13 +10,13 @@
   \item{y}{vector holding the y values}
 }
 \value{
-  area under the curve
+area under the curve
 }
 \description{
-  Calculates the trapezoid area (boxes+traingles) under the
-  curve y=f(x)
+Calculates the trapezoid area (boxes+traingles) under the
+curve y=f(x)
 }
 \seealso{
-  \code{\link{calcAreaLim}}
+\code{\link{calcAreaLim}}
 }
 

@@ -2,7 +2,7 @@
 \alias{bkr}
 \title{Background proportion}
 \usage{
-  bkr(d, thr, depvar_name = "y")
+bkr(d, thr, depvar_name = "y")
 }
 \arguments{
   \item{d}{dataframe}
@@ -13,9 +13,9 @@
   output}
 }
 \value{
-  background proportion
+background proportion
 }
 \description{
-  Background proportion
+Background proportion
 }
 

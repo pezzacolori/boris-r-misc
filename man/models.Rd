@@ -2,7 +2,7 @@
 \alias{models}
 \title{Models from formulae}
 \usage{
-  models(prefix, formulae, suffix, envir = parent.frame(1))
+models(prefix, formulae, suffix, envir = parent.frame(1))
 }
 \arguments{
   \item{prefix}{string representation of the model prefix
@@ -18,10 +18,10 @@
   calls this function}
 }
 \value{
-  a list of models
+a list of models
 }
 \description{
-  Build a list of models according to different formulae, a
-  prefix and a suffix
+Build a list of models according to different formulae, a
+prefix and a suffix
 }
 

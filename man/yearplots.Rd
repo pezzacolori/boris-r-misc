@@ -2,9 +2,8 @@
 \alias{yearplots}
 \title{Multiple plots of daily data over years}
 \usage{
-  yearplots(data, vars, year = "x", doy = "y",
-    what = c("data", "mean", "na"),
-    rows = floor(length(vars)/cols + 1), cols = 4)
+yearplots(data, vars, year = "x", doy = "y", what = c("data", "mean",
+  "na"), rows = floor(length(vars)/cols + 1), cols = 4)
 }
 \arguments{
   \item{data}{dataframe with data}
@@ -26,9 +25,9 @@
   Defaults to 4}
 }
 \value{
-  plot
+plot
 }
 \description{
-  Plots summaries of daily data in a yearly plot
+Plots summaries of daily data in a yearly plot
 }
 

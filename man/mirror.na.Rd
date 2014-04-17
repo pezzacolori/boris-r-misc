@@ -2,7 +2,7 @@
 \alias{mirror.na}
 \title{Fill gaps in a dataframe with data from another dataframe}
 \usage{
-  mirror.na(to, from, colnames, case.sensitive = T)
+mirror.na(to, from, colnames, case.sensitive = T)
 }
 \arguments{
   \item{to}{dataframe holding the NA values to replace}
@@ -17,11 +17,11 @@
   are considered according to case or not}
 }
 \value{
-  dataframe with replaces NA's
+dataframe with replaces NA's
 }
 \description{
-  Function replacing NA values in a dataframe with
-  sequentially corresponding data from another dataframe of
-  the same length and with same column names.
+Function replacing NA values in a dataframe with
+sequentially corresponding data from another dataframe of
+the same length and with same column names.
 }
 

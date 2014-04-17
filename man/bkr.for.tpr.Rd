@@ -2,8 +2,7 @@
 \alias{bkr.for.tpr}
 \title{Background portion for a given true positive rate}
 \usage{
-  bkr.for.tpr(d, tp.rate, depvar_name = "y",
-    occurrence_colname = "presence")
+bkr.for.tpr(d, tp.rate, depvar_name = "y", occurrence_colname = "presence")
 }
 \arguments{
   \item{d}{dataframe}
@@ -17,9 +16,9 @@
   presence [0/1]}
 }
 \value{
-  background proportion
+background proportion
 }
 \description{
-  Background portion for a given true positive rate
+Background portion for a given true positive rate
 }
 

@@ -2,7 +2,7 @@
 \alias{maxent.formula}
 \title{Maxent with formula}
 \usage{
-  maxent.formula(formula, data, ...)
+maxent.formula(formula, data, ...)
 }
 \arguments{
   \item{formula}{formula with dependent and independent
@@ -13,13 +13,13 @@
   \item{...}{additional parameters to pass to maxent}
 }
 \value{
-  Maxent model
+Maxent model
 }
 \description{
-  Wrapper for Maxent to use a formula instead of data and
-  presences
+Wrapper for Maxent to use a formula instead of data and
+presences
 }
 \seealso{
-  \code{\link{maxent}}
+\code{\link{maxent}}
 }
 

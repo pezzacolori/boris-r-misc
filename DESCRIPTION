@@ -18,11 +18,3 @@ Imports:
 Suggests:
     testthat,
     roxygen2
-Collate:
-    'fire_utils.r'
-    'utils.r'
-    'model_utils.r'
-    'scientific_utils.r'
-    'meteo_utils.r'
-    'plot_utils.r'
-    'boris.r'

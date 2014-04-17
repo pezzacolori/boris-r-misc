@@ -3,9 +3,9 @@
 \title{Resample a data.frame with meteorological data with hourly interval to a daily interval,
 allowing the specification at which time to cut the day (e.g. can be summarized foro noon to noon).}
 \usage{
-  resample.meteo_h2d(h, time_h = 24, timevar, varnames,
-    aggregation = c("sample", "sum", "mean", "max", "min"),
-    na.rm = F, add_suffix = F)
+resample.meteo_h2d(h, time_h = 24, timevar, varnames,
+  aggregation = c("sample", "sum", "mean", "max", "min"), na.rm = F,
+  add_suffix = F)
 }
 \arguments{
   \item{h}{a data.frame holding the hourly data}
@@ -31,16 +31,16 @@ allowing the specification at which time to cut the day (e.g. can be summarized 
   aggregation.}
 }
 \value{
-  a new data.frame with daily timestep and the selected
-  variables and aggregations .
+a new data.frame with daily timestep and the selected
+variables and aggregations .
 }
 \description{
-  Resample a data.frame with meteorological data with
-  hourly interval to a daily interval, allowing the
-  specification at which time to cut the day (e.g. can be
-  summarized foro noon to noon).
+Resample a data.frame with meteorological data with hourly
+interval to a daily interval, allowing the specification at
+which time to cut the day (e.g. can be summarized foro noon
+to noon).
 }
 \seealso{
-  \code{\link{kfold}}
+\code{\link{kfold}}
 }
 

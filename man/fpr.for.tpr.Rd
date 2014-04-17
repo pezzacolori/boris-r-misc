@@ -2,8 +2,7 @@
 \alias{fpr.for.tpr}
 \title{False positive rate for a given true positive rate}
 \usage{
-  fpr.for.tpr(d, tp.rate, depvar_name = "y",
-    occurrence_colname = "presence")
+fpr.for.tpr(d, tp.rate, depvar_name = "y", occurrence_colname = "presence")
 }
 \arguments{
   \item{d}{dataframe}
@@ -17,9 +16,9 @@
   presence [0/1]}
 }
 \value{
-  false positive rate
+false positive rate
 }
 \description{
-  False positive rate for a given true positive rate
+False positive rate for a given true positive rate
 }
 

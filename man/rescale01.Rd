@@ -2,7 +2,7 @@
 \alias{rescale01}
 \title{Rescale a vector of numbers between 0 and 1}
 \usage{
-  rescale01(x, na.rm = FALSE)
+rescale01(x, na.rm = FALSE)
 }
 \arguments{
   \item{x}{numeric vector to rescale}
@@ -11,10 +11,10 @@
   should be removed}
 }
 \value{
-  numeric vector with rescaled values
+numeric vector with rescaled values
 }
 \description{
-  This function rescales the values of a numeric vector
-  between 0 and 1
+This function rescales the values of a numeric vector
+between 0 and 1
 }
 

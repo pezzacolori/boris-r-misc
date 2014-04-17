@@ -2,9 +2,8 @@
 \alias{cor2df.fire}
 \title{Correlations above a threshold, showing aicc's of a logistic according to fire presence}
 \usage{
-  cor2df.fire(data, vars = NULL, fire, threshold,
-    use = "everything",
-    method = c("pearson", "kendall", "spearman"))
+cor2df.fire(data, vars = NULL, fire, threshold, use = "everything",
+  method = c("pearson", "kendall", "spearman"))
 }
 \arguments{
   \item{data}{dataframe with the data}
@@ -30,23 +29,22 @@
   abbreviated}
 }
 \value{
-  a list with \itemize{ \item cors: dataframe holding the
-  variable pairs with a correlation higher than the
-  specified threshold, and the relative aicc's' \item
-  aiccs: dataframe holding allthe aicc's' for all variables
-  }
+a list with \itemize{ \item cors: dataframe holding the
+variable pairs with a correlation higher than the specified
+threshold, and the relative aicc's' \item aiccs: dataframe
+holding allthe aicc's' for all variables }
 }
 \description{
-  This function returns a dataframe with the variable pairs
-  above a given correlation threshold, and the aic value of
-  a logistic model with fire occurrence
+This function returns a dataframe with the variable pairs
+above a given correlation threshold, and the aic value of a
+logistic model with fire occurrence
 }
 \details{
-  It is based on the \code{\link{cor}} function, but
-  instead of a correlation matrix it returns a dataframe
-  with the pairwise combinations above a threshold.
+It is based on the \code{\link{cor}} function, but instead
+of a correlation matrix it returns a dataframe with the
+pairwise combinations above a threshold.
 }
 \seealso{
-  \code{\link{cordf}}
+\code{\link{cordf}}
 }
 

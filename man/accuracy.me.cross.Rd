@@ -2,8 +2,7 @@
 \alias{accuracy.me.cross}
 \title{Accuracy function to evaluate a maxent model for training and test dataset}
 \usage{
-  accuracy.me.cross(me, abundance, test = NULL,
-    depvar_name, abundance_name)
+accuracy.me.cross(me, abundance, test = NULL, depvar_name, abundance_name)
 }
 \arguments{
   \item{me}{maxent model}
@@ -20,11 +19,11 @@
   the test dataframe}
 }
 \value{
-  a vector of named arguments (n=number data, np=numer of
-  presences, )
+a vector of named arguments (n=number data, np=numer of
+presences, )
 }
 \description{
-  Evaluate according to multiple criteria a maxent model
-  (\code{\link{maxent}}) for training and test dataset
+Evaluate according to multiple criteria a maxent model
+(\code{\link{maxent}}) for training and test dataset
 }
 
