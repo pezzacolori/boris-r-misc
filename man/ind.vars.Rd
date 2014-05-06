@@ -2,11 +2,14 @@
 \alias{ind.vars}
 \title{Independent variable(s)}
 \usage{
-ind.vars(formula)
+ind.vars(formula, simplify = F)
 }
 \arguments{
   \item{formula}{formula to inspect, either as formula
   object or string}
+
+  \item{simplify}{if terms such as I(x^2) should be
+  retained as variable or not}
 }
 \value{
 name of the independent variable(s)

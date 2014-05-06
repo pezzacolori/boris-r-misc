@@ -133,15 +133,18 @@ dep.vars <- function(formula){
 #'Extract the name of the independent variable(s) from formula 
 #'
 #'@param formula formula to inspect, either as formula object or string
+#'@param simplify if terms such as I(x^2) should be retained as variable or not
 #'@return name of the independent variable(s)
 #'@seealso  \code{\link{all.vars}} from base package to get all variables
 #'@export
 #'
-ind.vars <- function(formula){
+ind.vars <- function(formula, simplify=F){
   if (is.character(formula)) formula <- formula(formula)
   t <- terms(formula)  
   i <- as.character(attr(t,"variables"))
-  i[(attr(t,"response")+2):length(i)]
+  i <- i[(attr(t,"response")+2):length(i)]
+  if (simplify==T) i <- i[substr(i,1,2)!="I("]
+  i
 }
 
 
@@ -203,28 +206,34 @@ formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1,
 #'@export
 #'
 formulae.cleaned <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL, data, threshold=0.6, use = "everything", method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
-  t <- formulae(formula, dep, vars, nullmodelterm, minsize, maxsize)
-  l <- t$vars
-  cors<-cordf(data=data, vars=vars, threshold=threshold, use=use, method=method)
-  l<-cleanFormulae(formulae=l,cors=cors)
+  if (!missing(formula)){
+    if (!is.null(dep) || !is.null(vars)) warning('Formula is specified and also dep and/or vars. Only the formula term will be considered.')
+    dep <- dep.vars(formula)
+    vars <- ind.vars(formula)    
+  }
+  
+  t <- formulae( , dep, vars, nullmodelterm, minsize, maxsize)
+  
+  cors<-cordf(data=data, vars=vars[substr(vars,1,2)!="I("], threshold=threshold, use=use, method=method)
+  l<-cleanFormulae(depVarsInFormula=t$vars, cors=cors)
   f=sapply(l,function(x) paste(dep,"~",paste(x,collapse="+")))
   list(formulae=f, vars=l)
 }
 
 #eliminate the variable combinations that contains 2 correlated variables, according to cors 
-cleanFormulae <- function(formulae, cors){
-  for (i in 1:length(formulae)){
-    f<-formulae[[i]]
+cleanFormulae <- function(depVarsInFormula, cors){
+  for (i in 1:length(depVarsInFormula)){
+    f<-depVarsInFormula[[i]]
     if (nrow(cors)>0){
       for (k in 1:nrow(cors)){
         if (cors[k,1] %in% f & cors[k,2] %in% f){
-          formulae[[i]]=NA
+          depVarsInFormula[[i]]=NA
           break
         } 
       }
     }
   }
-  formulae[sapply(formulae,function(x) !is.na(x[1]))]
+  depVarsInFormula[sapply(depVarsInFormula,function(x) !is.na(x[1]))]
 }
 
 
