@@ -32,6 +32,9 @@ test_that("ind.vars works for complete and uncomplete formulae, and also for int
   expect_that(ind.vars( ~ x + b:c), equals(c('x','b','c')))
   expect_that(ind.vars(y+z ~ x + b*c), equals(c('x','b','c')))
   
+  expect_that(ind.vars(y+z ~ x + I(x^2)), equals(c('x','I(x^2)')))
+  expect_that(ind.vars(y+z ~ x + I(x^2), T), equals(c('x')))
+  
 })
 
 
