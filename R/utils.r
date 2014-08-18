@@ -256,7 +256,7 @@ without.na <- function (data, selection){
             ind.vars(selection)
           else
             selection
-
+  
   for (var in vars){
     #     print(var)
     data <- data[!is.na(data[,var]),]
@@ -264,6 +264,27 @@ without.na <- function (data, selection){
   data
 }
 
+
+
+#'Replace NA's
+#'
+#'Substitutes NA values in the given vector, dataframe, matrix or list
+#'
+#'@param data vector, dataframe, list or matrix 
+#'@param value replacement value
+#'@return a data structure with the given value instead of NA's 
+#'@export
+#'
+replace.na <- function (data, value){
+  
+  if (class(data)=='list' )
+    data <- lapply(data, function(x) replace.na(x, value))
+  
+  else   #vector, matrix, data.frame
+    data[is.na(data)] <- value
+    
+  data
+}
 
 
 #'Area under a curve
