@@ -3,3 +3,4 @@
 .RData
 *.Rd
 *.pdf
+man/*.Rd
