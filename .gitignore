@@ -1,6 +1,4 @@
 .Rproj.user
 .Rhistory
 .RData
-*.Rd
-*.pdf
-man/*.Rd
+.Rd2pdf*
