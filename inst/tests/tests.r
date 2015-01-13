@@ -38,6 +38,18 @@ test_that("ind.vars works for complete and uncomplete formulae, and also for int
 })
 
 
+context('fill na values in a vector')
+
+test_that("fill.na works", {
+  
+  expect_that(fill.na(c(1,2,NA,NA,NA,6,7,8,9,10), maxgap=3, method= 'l'), equals(1:10))
+  expect_that(fill.na(c(1,2,NA,NA,NA,6,7,8,9,10), maxgap=3, method= 'p'), equals(c(1,2,2,2,2,6,7,8,9,10)))
+  expect_that(fill.na(c(1,2,NA,NA,NA,6,7,8,9,10), maxgap=3, method= 'n'), equals(c(1,2,6,6,6,6,7,8,9,10)))
+
+  expect_that(fill.na(c(1,2,NA,NA,NA,6,7,8,9,10), maxgap=2, method= 'l'), equals(c(1,2,NA,NA,NA,6,7,8,9,10)))
+  
+})
+
 
 
 

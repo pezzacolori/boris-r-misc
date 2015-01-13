@@ -360,7 +360,7 @@ fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
   #select only 1day gaps
   one.day <- which(is.na(x) & roll.na==1)
   
-  #linearize
+  #fill
   #   for (i in one.day)  x[i] <- x[i-1] + (x[i+1]-x[i-1])/2
   if (substr(method,1,1)=='l')
     for (i in one.day)  x[i] <- mean(c(x[i-1],x[i+1]))
@@ -370,6 +370,33 @@ fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
     for (i in one.day)  x[i] <- x[i+1]
 
   x
+}
+
+#'Fill gaps in a vector
+#'
+#'Fill gaps with linearization (mean of the adjacent values) or
+#'repetition of previous/next value, by using the \code{\link{na.approx}}
+#'function.
+#'
+#'
+#'@param x numeric vector 
+#'@param method how to fill in the gaps (default by linearization, otherwise by 
+#'previous/next value duplication)
+#'@param maxgap maximum number of consecutive NAs to fill. Any longer gaps will be left unchanged. 
+#'@return numeric vector with filled 1-value gaps
+#'@export
+#'
+fill.na <-  function(x, method=c('linearize', 'previous', 'next'), maxgap=2){
+  
+  if (substr(method[1],1,1)=='l')
+    na.approx(x, maxgap=maxgap, method='linear')
+  
+  else if (substr(method[1],1,1)=='p')
+    na.approx(x, maxgap=maxgap, method='constant', f=0)
+  
+  else if (substr(method[1],1,1)=='n')  
+    na.approx(x, maxgap=maxgap, method='constant', f=1)
+  
 }
 
 
