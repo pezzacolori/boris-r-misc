@@ -354,8 +354,7 @@ calcAreaLim <- function (x, y, xupper=NULL){
 #'@export
 #'
 fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
-  if (substr(method,1,1) %in% c('l','p','n'))
-    stop(paste('Method ',method[1],' is not correct.'))
+  if (!substr(method[1],1,1) %in% c('l','p','n')) stop(paste('Method ', method[1], ' is not correct.'))
          
 #   require(zoo)
   
