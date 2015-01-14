@@ -354,6 +354,10 @@ calcAreaLim <- function (x, y, xupper=NULL){
 #'@export
 #'
 fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
+  if (substr(method,1,1) %in% c('l','p','n'))
+    stop(paste('Method ',method[1],' is not correct.'))
+         
+#   require(zoo)
   
   roll.na <- rollapply(x, width=3, FUN=function(a) sum(is.na(a)), fill=999)
   
@@ -361,14 +365,13 @@ fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
   one.day <- which(is.na(x) & roll.na==1)
   
   #fill
-  #   for (i in one.day)  x[i] <- x[i-1] + (x[i+1]-x[i-1])/2
-  if (substr(method,1,1)=='l')
+  if (substr(method[1],1,1)=='l')
     for (i in one.day)  x[i] <- mean(c(x[i-1],x[i+1]))
-  else if (substr(method,1,1)=='p')
+  else if (substr(method[1],1,1)=='p')
     for (i in one.day)  x[i] <- x[i-1]
-  else if (substr(method,1,1)=='n')
+  else if (substr(method[1],1,1)=='n')
     for (i in one.day)  x[i] <- x[i+1]
-
+   
   x
 }
 
@@ -387,6 +390,7 @@ fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
 #'@export
 #'
 fill.na <-  function(x, method=c('linearize', 'previous', 'next'), maxgap=2){
+#   require(zoo)
   
   if (substr(method[1],1,1)=='l')
     na.approx(x, maxgap=maxgap, method='linear', na.rm=F)
@@ -397,6 +401,9 @@ fill.na <-  function(x, method=c('linearize', 'previous', 'next'), maxgap=2){
   else if (substr(method[1],1,1)=='n')  
     na.approx(x, maxgap=maxgap, method='constant', f=1, na.rm=F)
   
+  else
+    stop(paste('Method ',method[1],' is not correct.'))
+    
 }
 
 
