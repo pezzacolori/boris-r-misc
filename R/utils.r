@@ -389,13 +389,13 @@ fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
 fill.na <-  function(x, method=c('linearize', 'previous', 'next'), maxgap=2){
   
   if (substr(method[1],1,1)=='l')
-    na.approx(x, maxgap=maxgap, method='linear')
+    na.approx(x, maxgap=maxgap, method='linear', na.rm=F)
   
   else if (substr(method[1],1,1)=='p')
-    na.approx(x, maxgap=maxgap, method='constant', f=0)
+    na.approx(x, maxgap=maxgap, method='constant', f=0, na.rm=F)
   
   else if (substr(method[1],1,1)=='n')  
-    na.approx(x, maxgap=maxgap, method='constant', f=1)
+    na.approx(x, maxgap=maxgap, method='constant', f=1, na.rm=F)
   
 }
 
