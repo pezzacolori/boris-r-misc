@@ -15,7 +15,7 @@
 #'@seealso \code{\link{kfold}}
 #'@export
 #'
-resample.meteo_h2d <- function(h, time_h=24, timevar, varnames, aggregation = c('sample','sum','mean','max','min'), na.rm=F,
+resample_meteo_h2d <- function(h, time_h=24, timevar, varnames, aggregation = c('sample','sum','mean','max','min'), na.rm=F,
                                add_suffix=F){
   library(dplyr)
   

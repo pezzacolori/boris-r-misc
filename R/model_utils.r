@@ -16,7 +16,7 @@
 #'@seealso \code{\link{glm}}
 #'@export
 #'
-glm.pseudoabsence <- function(formula, family=gaussian,data,...){
+glm_pseudoabsence <- function(formula, family=gaussian,data,...){
   #   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])] 
   vars <- dep.vars(formula)
   
@@ -40,7 +40,7 @@ glm.pseudoabsence <- function(formula, family=gaussian,data,...){
 #'@seealso \code{\link{maxent}}
 #'@export
 #'
-maxent.formula <- function(formula, data, ...){
+maxent_formula <- function(formula, data, ...){
   #   x <- data[,attr(terms(formula(formula)),"term.labels")]
   #   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])]
   x <- data[, ind.vars(formula), drop=F]
@@ -65,7 +65,7 @@ maxent.formula <- function(formula, data, ...){
 #'@seealso \code{\link{kfold}}
 #'@export
 #'
-kfold.seq <- function (x, k = 5, by = NULL) 
+kfold_seq <- function (x, k = 5, by = NULL) 
 {
   singlefold <- function(obs, k) {
     if (k == 1) {
@@ -163,7 +163,7 @@ models <- function(prefix,formulae,suffix, envir=parent.frame(1)){  #formulas as
 #'@return a vector of named arguments (n=number data, np=numer of presences, auc=auc, auc.bg=auc on the background)
 #'@export
 #'
-accuracy.simple <- function(p, a, abundance=NULL){   
+accuracy_simple <- function(p, a, abundance=NULL){   
   require(SDMTools)
   
   dp <- data.frame(presence=rep(1,length(p)), y=p)
@@ -255,7 +255,7 @@ accuracy.simple <- function(p, a, abundance=NULL){
 #'@return a vector of named arguments (n=number data, np=numer of presences, )
 #'@export
 #'
-accuracy.me.simple <- function(me, p, a, abundance=NULL){   
+accuracy_me_simple <- function(me, p, a, abundance=NULL){   
   #   library(SDMTools)
   
   auc.me=me@results[5]  
@@ -288,7 +288,7 @@ accuracy.me.simple <- function(me, p, a, abundance=NULL){
 #'@return a vector of named arguments (n=number data, np=numer of presences, )
 #'@export
 #'
-accuracy.glm.simple <- function(m, p,a, abundance=NULL){
+accuracy_glm_simple <- function(m, p,a, abundance=NULL){
   #   library(glmulti)  #for aicc
   
   a <- accuracy.simple(p,a, abundance)
@@ -317,7 +317,7 @@ accuracy.glm.simple <- function(m, p,a, abundance=NULL){
 #'@return a vector of named arguments (n=number data, np=numer of presences, )
 #'@export
 #'
-accuracy.me.cross <- function(me, abundance, test=NULL, depvar_name, abundance_name){   
+accuracy_me_cross <- function(me, abundance, test=NULL, depvar_name, abundance_name){   
 #   library(SDMTools)
   
   # --------------------------  calc training accuracy   (data stored into maxent model)
@@ -354,7 +354,7 @@ accuracy.me.cross <- function(me, abundance, test=NULL, depvar_name, abundance_n
 #'@return a vector of named arguments (n=number data, np=numer of presences, )
 #'@export
 #'
-accuracy.glm.cross <- function(m, abundance, test, depvar_name, abundance_name){   
+accuracy_glm_cross <- function(m, abundance, test, depvar_name, abundance_name){   
 #   library(SDMTools)
   
   
@@ -451,7 +451,7 @@ bkr <- function(d,thr, depvar_name='y'){
 #'@return false positive rate
 #'@export
 #'  
-fpr.for.tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
+fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
   d <- d[order(d[,depvar_name]),]
   thr <- approx( tpr(d, d[,depvar_name], depvar_name, occurrence_colname), d[,depvar_name] ,tp.rate, rule=2)$y
   fpr(d, thr,  depvar_name, occurrence_colname)
@@ -467,7 +467,7 @@ fpr.for.tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presenc
 #'@return background proportion
 #'@export
 #'  
-bkr.for.tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
+bkr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
   d <- d[order(d[,depvar_name]),]
   thr <- approx(tpr(d, d[, depvar_name], depvar_name, occurrence_colname), d[,depvar_name], tp.rate, rule=2)$y
   #   Vectorize(function(x,thr) nrow(x[x$y>=thr,]),'thr' )(d, thr)/ nrow(d)
@@ -493,7 +493,7 @@ bkr.for.tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presenc
 #'@return dataframe with the lambda values (what, lambda, min, max)
 #'@export
 #' 
-me.lambdas <- function(m){   #m is a maxent model
+me_lambdas <- function(m){   #m is a maxent model
   m.par <- if (class(m)[1]=='MaxEnt')  
                 m@lambdas[1:(length(m@lambdas)-4)]
            else
@@ -522,7 +522,7 @@ me.lambdas <- function(m){   #m is a maxent model
 #'@return dataframe holding the constants (what, value)
 #'@export
 #' 
-me.constants <- function(m){   #m is a maxent model
+me_constants <- function(m){   #m is a maxent model
   m.par <- if (class(m)[1]=='MaxEnt')  
               m@lambdas[(length(m@lambdas)-3) : length(m@lambdas)]
           else
@@ -549,7 +549,7 @@ me.constants <- function(m){   #m is a maxent model
 #'@return predictions
 #'@export
 #' 
-me.predict <- function(m, data){
+me_predict <- function(m, data){
   library(dplyr)
   l <- me.lambdas(m)
   
@@ -598,7 +598,7 @@ me.predict <- function(m, data){
 }
 
 #calculate aicc
-aicc.me <- function(m, d, presence.name='presence', mpfr.precision=100){
+aicc_me <- function(m, d, presence.name='presence', mpfr.precision=100){
   if (missing(d)){
     p <- m@presence
     a <- m@absence
@@ -634,7 +634,7 @@ aicc.me <- function(m, d, presence.name='presence', mpfr.precision=100){
 #'@return number of parameters
 #'@export
 #' 
-me.parNum <- function(m){
+me_parNum <- function(m){
   l <- me.lambdas(m)
   nrow(l[l$lambda!=0.0,]) 
 }

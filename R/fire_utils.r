@@ -22,7 +22,7 @@
 #'@seealso \code{\link{cordf}}
 #'@export
 #'
-cor2df.fire <- function(data, vars=NULL, fire, threshold, use = "everything",method= c("pearson", "kendall", "spearman")){
+cor2df_fire <- function(data, vars=NULL, fire, threshold, use = "everything",method= c("pearson", "kendall", "spearman")){
   yy <- data[,fire]
   m <- apply(data[, vars],MARGIN =2,FUN=function(a) summary(glm(yy ~ a,,family=binomial(link="logit")))$aic)
   m <- data.frame(m)
