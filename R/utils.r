@@ -99,13 +99,13 @@ cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c(
 #'@export
 #'
 cor2df <- function(cor.matrix, threshold=0.6){
-  require(reshape2)
+  library(tidyr)
   for (i in 1:ncol(cor.matrix)){
     for (j in 1:nrow(cor.matrix)){
       if (j<=i) cor.matrix[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
     }
   }
-  d_m <- melt(cor.matrix, na.rm=T)  
+  d_m <- as.data.frame(cor.matrix) %>% gather(na.rm=T)  
   unique(d_m[abs(d_m$value)>threshold & !is.na(d_m$value),])
 }
 

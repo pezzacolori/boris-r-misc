@@ -20,7 +20,7 @@ glm.pseudoabsence <- function(formula, family=gaussian,data,...){
   #   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])] 
   vars <- dep.vars(formula)
   
-  p <- data[, vars] 
+  p <- data[, vars]
   p[p==0] <- length(p[p==1])/length(p[p==0])
   #   data[,as.character(attr(term(formula(formula)),"variables")[[2]])] <- p
   data[, vars] <- p
@@ -421,8 +421,8 @@ fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){
   #     nrow(d[d$presence==0 & d$y>=thr,])/ nrow(d[d$presence==0,])
   #   }
   #   Vectorize(singlefpr,'thr')(d,thr)
-  
-  x <- d$y[d$presence==0]
+  library(dplyr)
+  x<- d %>% filter(presence==0) %>% select(y)
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
@@ -435,7 +435,7 @@ fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){
 #'@return background proportion
 #'@export
 #'  
-bkr <- function(d,thr, depvar_name='y'){    
+bkr <- function(d,thr, depvar_name='y'){
   x <- d[, depvar_name]
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
@@ -550,6 +550,7 @@ me.constants <- function(m){   #m is a maxent model
 #'@export
 #' 
 me.predict <- function(m, data){
+  library(dplyr)
   l <- me.lambdas(m)
   
   l$type <- 'RAW'
@@ -584,9 +585,10 @@ me.predict <- function(m, data){
   }
   #   print(l)
   cs <- me.constants(m)
-  linearPredictorNormalizer <- cs$value[cs$what=='linearPredictorNormalizer']
-  densityNormalizer <- cs$value[cs$what=='densityNormalizer']
-  entropy <-  cs$value[cs$what=='entropy']
+  linearPredictorNormalizer <- cs %>% filter(what=='linearPredictorNormalizer') %>% select(value)
+  densityNormalizer <- cs %>% filter(what=='densityNormalizer') %>% select(value)
+  entropy <- cs %>% filter(what=='entropy') %>% select(value)
+
   
   S <- sum( l$value, na.rm=T) - linearPredictorNormalizer
   qx <- exp(S) / densityNormalizer
