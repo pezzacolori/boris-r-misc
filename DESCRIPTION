@@ -3,13 +3,13 @@ Title: Boris' miscellanea
 Description: Miscellaneous functions of boris. It contains general utils,
     model, plot and scientific utils. Probably in future to be splitted into
     multiple packages.
-Version: 0.18
+Version: 0.19
 Maintainer: Gianni Boris Pezzatti <boris.pezzatti@wsl.ch>
 Author: Gianni Boris Pezzatti
 License: GPL-3
 Imports:
-    plyr,
-    reshape2,
+    dplyr,
+    tidyr,
     stringr,
     foreach,
     zoo,
@@ -18,3 +18,4 @@ Imports:
 Suggests:
     testthat,
     roxygen2
+RoxygenNote: 6.0.1

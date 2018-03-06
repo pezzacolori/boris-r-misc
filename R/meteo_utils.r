@@ -17,17 +17,19 @@
 #'
 resample.meteo_h2d <- function(h, time_h=24, timevar, varnames, aggregation = c('sample','sum','mean','max','min'), na.rm=F,
                                add_suffix=F){
-  library(plyr)
+  library(dplyr)
   
-  h$dtnum <- h[, timevar]
-  h$day <- trunc(h$dtnum)
+  h<- h %>% mutate(dtnum=timevar,
+                   day=trunc(dtnum))
+
   if (aggregation=='sample') {
     d <- h[round(h$dtnum - trunc(h$dtnum),10)== round(time_h/24,10),c("day","dtnum",varnames)]
     #names(d) <-c("day","dtnum", paste(varnames, time_h, sep=''))
     if (add_suffix) names(d) <-c("day","dtnum", paste(varnames, time_h, sep=''))
     d <- d[-2]
   } else if (aggregation %in% c('sum','mean','max','min')){
-    prefix= 'ddply(h[,c("dtnum",varnames)], .(trunc(dtnum +(24-time_h-0.1)/24)), summarise,'          # -0.1 is to avoid errors due to floating
+    prefix='h %>% select(dtnum,varnames) %>% group_by(trunc(dtnum +(24-time_h-0.1)/24)) %>% summarise('
+    # prefix= 'ddply(h[,c("dtnum",varnames)], .(trunc(dtnum +(24-time_h-0.1)/24)), summarise,'          # -0.1 is to avoid errors due to floating
     cols =  sapply(varnames, function(x) paste(x,'=',aggregation,'(',x,', na.rm=',na.rm ,')', sep=''))
     d <- evaltext(paste(prefix, paste(cols,collapse=','),')', sep=''))
     if (add_suffix) names(d) <-c("day", paste(varnames, aggregation, time_h, sep='_'))
