@@ -351,12 +351,13 @@ calcAreaLim <- function (x, y, xupper=NULL){
 #'@param method how to fill in the gaps (default by linearization, otherwise by 
 #'previous/next value duplication)
 #'@return numeric vector with filled 1-value gaps
+#'@method fill.1.na Vector
 #'@export
 #'
-fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
+`fill.1.na` <-  function(x, method=c('linearize', 'previous', 'next')){
   if (!substr(method[1],1,1) %in% c('l','p','n')) stop(paste('Method ', method[1], ' is not correct.'))
          
-#   require(zoo)
+   # require(zoo)
   
   roll.na <- rollapply(x, width=3, FUN=function(a) sum(is.na(a)), fill=999)
   
@@ -386,9 +387,10 @@ fill.1.na <-  function(x, method=c('linearize', 'previous', 'next')){
 #'previous/next value duplication)
 #'@param maxgap maximum number of consecutive NAs to fill. Any longer gaps will be left unchanged. 
 #'@return numeric vector with filled 1-value gaps
+#'@method fill.na Vector
 #'@export
 #'
-fill.na <-  function(x, method=c('linearize', 'previous', 'next'), maxgap=2){
+`fill.na` <-  function(x, method=c('linearize', 'previous', 'next'), maxgap=2){
 #   require(zoo)
   
   if (substr(method[1],1,1)=='l')

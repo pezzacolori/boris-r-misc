@@ -4,7 +4,7 @@
 \alias{fill.na}
 \title{Fill gaps in a vector}
 \usage{
-\method{fill}{na}(x, method = c("linearize", "previous", "next"),
+\method{fill.na}{Vector}(x, method = c("linearize", "previous", "next"),
   maxgap = 2)
 }
 \arguments{

@@ -4,7 +4,7 @@
 \alias{fill.1.na}
 \title{Fill 1-value gaps in a vector}
 \usage{
-\method{fill}{1.na}(x, method = c("linearize", "previous", "next"))
+\method{fill.1.na}{Vector}(x, method = c("linearize", "previous", "next"))
 }
 \arguments{
 \item{x}{numeric vector}
