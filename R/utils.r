@@ -120,7 +120,7 @@ cor2df <- function(cor.matrix, threshold=0.6){
 #'@seealso  \code{\link{all.vars}} from base package to get all variables
 #'@export
 #'
-dep.vars <- function(formula){
+dep_vars <- function(formula){
   if (is.character(formula)) formula <- formula(formula)
   t <- terms(formula)
   if (attr(t,"response")==0) NA 
@@ -138,7 +138,7 @@ dep.vars <- function(formula){
 #'@seealso  \code{\link{all.vars}} from base package to get all variables
 #'@export
 #'
-ind.vars <- function(formula, simplify=F){
+ind_vars <- function(formula, simplify=F){
   if (is.character(formula)) formula <- formula(formula)
   t <- terms(formula)  
   i <- as.character(attr(t,"variables"))
@@ -205,7 +205,7 @@ formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1,
 #'} 
 #'@export
 #'
-formulae.cleaned <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL, data, threshold=0.6, use = "everything", method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
+formulae_cleaned <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL, data, threshold=0.6, use = "everything", method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
   if (!missing(formula)){
     if (!is.null(dep) || !is.null(vars)) warning('Formula is specified and also dep and/or vars. Only the formula term will be considered.')
     dep <- dep.vars(formula)
@@ -251,7 +251,7 @@ cleanFormulae <- function(depVarsInFormula, cors){
 #'@return A dataframe without NA's in the columns holded by independent variables of the formula
 #'@export
 #'
-without.na <- function (data, selection){
+without_na <- function (data, selection){
   vars <- if (class(try(as.formula(selection)))=='formula')
             ind.vars(selection)
           else
@@ -275,7 +275,7 @@ without.na <- function (data, selection){
 #'@return a data structure with the given value instead of NA's 
 #'@export
 #'
-replace.na <- function (data, value){
+replace_na <- function (data, value){
   
   if (class(data)=='list' )
     data <- lapply(data, function(x) replace.na(x, value))
@@ -351,10 +351,9 @@ calcAreaLim <- function (x, y, xupper=NULL){
 #'@param method how to fill in the gaps (default by linearization, otherwise by 
 #'previous/next value duplication)
 #'@return numeric vector with filled 1-value gaps
-#'@method fill.1.na Vector
 #'@export
 #'
-`fill.1.na` <-  function(x, method=c('linearize', 'previous', 'next')){
+fill_1_na <-  function(x, method=c('linearize', 'previous', 'next')){
   if (!substr(method[1],1,1) %in% c('l','p','n')) stop(paste('Method ', method[1], ' is not correct.'))
          
    # require(zoo)
@@ -387,10 +386,9 @@ calcAreaLim <- function (x, y, xupper=NULL){
 #'previous/next value duplication)
 #'@param maxgap maximum number of consecutive NAs to fill. Any longer gaps will be left unchanged. 
 #'@return numeric vector with filled 1-value gaps
-#'@method fill.na Vector
 #'@export
 #'
-`fill.na` <-  function(x, method=c('linearize', 'previous', 'next'), maxgap=2){
+fill_na <-  function(x, method=c('linearize', 'previous', 'next'), maxgap=2){
 #   require(zoo)
   
   if (substr(method[1],1,1)=='l')
@@ -421,7 +419,7 @@ calcAreaLim <- function (x, y, xupper=NULL){
 #'@return dataframe with replaces NA's
 #'@export
 #'
-mirror.na <- function (to, from, colnames, case.sensitive=T){
+mirror_na <- function (to, from, colnames, case.sensitive=T){
 
   if (!case.sensitive){
     names(to) <- tolower(names(to))
@@ -483,7 +481,7 @@ getArgs = function() {
 #'@return A data.frame as produced by \code{\link{read.fwf}} which is called internally.
 #'@export
 #'
-read.fwf.fixedheader <- function(file, widths, ...){
+read_fwf_fixedheader <- function(file, widths, ...){
    
   cols <- read.fwf(file,
                    widths=widths,
