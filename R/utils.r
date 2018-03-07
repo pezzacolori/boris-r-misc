@@ -164,8 +164,8 @@ ind_vars <- function(formula, simplify=F){
 formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL){        #vars are without nullmodelterm   #nullmodelterm in case of fixed term    #polyDegree can be a vector specifying for each term of vars the degree
   if (!missing(formula)){
     if (!is.null(dep) || !is.null(vars)) warning('Formula is specified and also dep and/or vars. Only the formula term will be considered.')
-    dep <- dep.vars(formula)
-    vars <- ind.vars(formula)    
+    dep <- dep_vars(formula)
+    vars <- ind_vars(formula)    
   }
   
   l=if (nullmodelterm!="") list(nullmodelterm) else list()
@@ -208,8 +208,8 @@ formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1,
 formulae_cleaned <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL, data, threshold=0.6, use = "everything", method = c("pearson", "kendall", "spearman")){        #vars are without nullmodelterm  
   if (!missing(formula)){
     if (!is.null(dep) || !is.null(vars)) warning('Formula is specified and also dep and/or vars. Only the formula term will be considered.')
-    dep <- dep.vars(formula)
-    vars <- ind.vars(formula)    
+    dep <- dep_vars(formula)
+    vars <- ind_vars(formula)    
   }
   
   t <- formulae( , dep, vars, nullmodelterm, minsize, maxsize)
@@ -253,7 +253,7 @@ cleanFormulae <- function(depVarsInFormula, cors){
 #'
 without_na <- function (data, selection){
   vars <- if (class(try(as.formula(selection)))=='formula')
-            ind.vars(selection)
+            ind_vars(selection)
           else
             selection
   
