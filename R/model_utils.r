@@ -259,7 +259,7 @@ accuracy_me_simple <- function(me, p, a, abundance=NULL){
   #   library(SDMTools)
   
   auc.me=me@results[5]  
-  aicc.me <- aicc_me(me)
+  aicc_me <- aicc_me(me)
   
   a <- accuracy_simple(p,a, abundance)
   
@@ -271,7 +271,7 @@ accuracy_me_simple <- function(me, p, a, abundance=NULL){
   if (!is.null(abundance)){ 
     out <- c(out,
              a[5:9],
-             aicc.me = aicc.me
+             aicc_me = aicc_me
     )
   }
   out
