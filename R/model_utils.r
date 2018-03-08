@@ -635,6 +635,6 @@ aicc_me <- function(m, d, presence.name='presence', mpfr.precision=100){
 #'@export
 #' 
 me_parNum <- function(m){
-  l <- me.lambdas(m)
+  l <- me_lambdas(m)
   nrow(l[l$lambda!=0.0,]) 
 }
