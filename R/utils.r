@@ -259,7 +259,8 @@ without_na <- function (data, selection){
             selection
   
   for (var in vars){
-    data <- data[!is.na(var),]
+    data <- data[!is.na(data[,var]),]
+    
   }
   data
 }
