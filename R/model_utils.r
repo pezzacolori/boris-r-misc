@@ -261,7 +261,7 @@ accuracy_me_simple <- function(me, p, a, abundance=NULL){
   auc.me=me@results[5]  
   aicc.me <- aicc.me(me)
   
-  a <- accuracy.simple(p,a, abundance)
+  a <- accuracy_simple(p,a, abundance)
   
   #put results in a vector with column names (for binding in data.frame later)              
   out <- c(a[1:4],
@@ -291,7 +291,7 @@ accuracy_me_simple <- function(me, p, a, abundance=NULL){
 accuracy_glm_simple <- function(m, p,a, abundance=NULL){
   #   library(glmulti)  #for aicc
   
-  a <- accuracy.simple(p,a, abundance)
+  a <- accuracy_simple(p,a, abundance)
   
   out <- a
   
@@ -324,7 +324,7 @@ accuracy_me_cross <- function(me, abundance, test=NULL, depvar_name, abundance_n
   p <-predict(me,me@presence) 
   a <-predict(me,me@absence)
   #   print(paste(length(abundance),length(p)))  #mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-  out <- accuracy.me.simple(me,p,a,abundance)
+  out <- accuracy_me_simple(me,p,a,abundance)
   
   
   #-----------------------------  calc test accuracy
@@ -333,7 +333,7 @@ accuracy_me_cross <- function(me, abundance, test=NULL, depvar_name, abundance_n
     p <-predict(me,test[test[,depvar_name]==1,])    
     a <-predict(me,test[test[,depvar_name]==0,]) 
     abundance <- test[test[,depvar_name]==1,abundance_name]
-    out.test <- accuracy.me.simple(me,p,a,abundance)
+    out.test <- accuracy_me_simple(me,p,a,abundance)
     names(out.test) <- paste(names(out.test),'.test',sep='')
     out <- c(out,out.test[-length(out.test)])  #don't copy aic test
   }
@@ -364,7 +364,7 @@ accuracy_glm_cross <- function(m, abundance, test, depvar_name, abundance_name){
   p <- m$fitted.values[m$model[,1]==1]
   a <- m$fitted.values[m$model[,1]!=1]
   #   print(paste(length(abundance),length(p)))  #mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-  out <- accuracy.glm.simple(m,p,a,abundance)
+  out <- accuracy_glm_simple(m,p,a,abundance)
   
   
   #-----------------------------  calc test accuracy
@@ -373,7 +373,7 @@ accuracy_glm_cross <- function(m, abundance, test, depvar_name, abundance_name){
     p <-predict(m,test[test[,depvar_name]==1,])    
     a <-predict(m,test[test[,depvar_name]==0,]) 
     abundance <- test[test[,depvar_name]==1,abundance_name]
-    out.test <- accuracy.glm.simple(m,p,a,abundance)
+    out.test <- accuracy_glm_simple(m,p,a,abundance)
     names(out.test) <- paste(names(out.test),'.test',sep='')
     l <- length(out.test)
     out <- c(out,out.test[-c((l-1):l)])  #don't copy aic and aicc test
@@ -551,7 +551,7 @@ me_constants <- function(m){   #m is a maxent model
 #' 
 me_predict <- function(m, data){
   library(dplyr)
-  l <- me.lambdas(m)
+  l <- me_lambdas(m)
   
   l$type <- 'RAW'
   l$type[grep('^2',l$what, fixed=T)] <- 'QUADRATIC'
@@ -606,7 +606,7 @@ aicc_me <- function(m, d, presence.name='presence', mpfr.precision=100){
     a[,presence.name] <- 0
     d <- rbind(p,a)
   }
-  k <- me.parNum(m)
+  k <- me_parNum(m)
   n <- nrow(d)
   if (k==0 || k>n){
     NA
