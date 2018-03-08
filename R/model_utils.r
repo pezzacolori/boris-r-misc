@@ -218,7 +218,7 @@ accuracy_simple <- function(p, a, abundance=NULL){
       area.log.rel <- (area.log-area.log.min)/(area.log.max-area.log.min)      
     }
     #check auc
-    #auc.area <- 1-calcArea(tp.rate,fpr.for.tpr(d,tp.rate))   #was consistent with auc  (less than 0.01 difference)
+    #auc.area <- 1-calcArea(tp.rate,fpr_for_tpr(d,tp.rate))   #was consistent with auc  (less than 0.01 difference)
   }
   auc.usual=auc(d$presence,d$y)
   auc.bg=auc(d.bg$presence,d.bg$y) 
@@ -417,12 +417,7 @@ tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){
 #'@export
 #'  
 fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){     
-  #   singlefpr <- function(d,thr){   
-  #     nrow(d[d$presence==0 & d$y>=thr,])/ nrow(d[d$presence==0,])
-  #   }
-  #   Vectorize(singlefpr,'thr')(d,thr)
-  library(dplyr)
-  x<- d %>% filter(presence==0) %>% select(y)
+  x<- d %>% filter(!!ocurrence_colname==0) %>% pull(!!depvar_name)
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
@@ -436,7 +431,7 @@ fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){
 #'@export
 #'  
 bkr <- function(d,thr, depvar_name='y'){
-  x <- d[, depvar_name]
+  x <- d %>% pull(!!depvar_name)
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
@@ -452,8 +447,9 @@ bkr <- function(d,thr, depvar_name='y'){
 #'@export
 #'  
 fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
-  d <- d[order(d[,depvar_name]),]
-  thr <- approx( tpr(d, d[,depvar_name], depvar_name, occurrence_colname), d[,depvar_name] ,tp.rate, rule=2)$y
+  d <- d %>% arrange(!!depvar_name)
+  x <- d %>% pull(!!depvar_name)
+  thr <- approx( tpr(d, x, depvar_name, occurrence_colname),x ,tp.rate, rule=2)$y
   fpr(d, thr,  depvar_name, occurrence_colname)
 }
 
@@ -468,14 +464,11 @@ fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presenc
 #'@export
 #'  
 bkr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
-  d <- d[order(d[,depvar_name]),]
-  thr <- approx(tpr(d, d[, depvar_name], depvar_name, occurrence_colname), d[,depvar_name], tp.rate, rule=2)$y
-  #   Vectorize(function(x,thr) nrow(x[x$y>=thr,]),'thr' )(d, thr)/ nrow(d)
+  d <- d %>% arrange(!!depvar_name)
+  x <- d %>% pull(!!depvar_name)
+  thr <- approx(tpr(d, x, depvar_name, occurrence_colname), x, tp.rate, rule=2)$y
   
   bkr(d, thr, depvar_name)
-  #   x <- d$y
-  #   n <- length(d)
-  #   sapply(thr, FUN=function(th) length(x[x>=th])/n)  
   
 }
 

@@ -22,9 +22,9 @@
 yearplots <- function(data, vars, year='year',doy='doy', what=c('data','mean','na'),rows=floor(length(vars)/cols+1), cols=4){
   library(dplyr)
   d <-data
-  d$year_ <- d[, year]
-  d$doy_ <- d[, doy]
-  d <- d %>% select(year_, doy_, vars)
+  d <- d %>% mutate(year=!!year,
+                    doy=!!doy)
+  d <- d %>% select(year, doy, vars)
   
   op <- par(no.readonly=T)
   par(mfrow=c(rows,cols))
@@ -34,43 +34,43 @@ yearplots <- function(data, vars, year='year',doy='doy', what=c('data','mean','n
   if (what[1]=='data'){
     for (v in vars){
       #   var <- d[,v]
-      xlim=range(d$doy_)
+      xlim=range(d$doy)
       ylim=range(d[,v],na.rm=T)
-      for (y in min(d$x):max(d$year_)){
-        s <- d %>% filter(year_==y)
+      for (y in min(d$x):max(d$year)){
+        s <- d %>% filter(year==y)
         plot(s$y, s[,v],xlab='Doy',ylab=v,type='l',xlim=xlim,ylim=ylim)
         par(new=T)
       }
       par(new=F)
     }
   } else if (what[1]=='mean'){
-    s <-  d %>% group_by(doy_) %>% summarise_if(is.numeric, mean, na.rm=T) 
+    s <-  d %>% group_by(doy) %>% summarise_if(is.numeric, mean, na.rm=T) 
     
-    sd <- d %>% group_by(doy_) %>% summarise_if(is.numeric,sd, na.rm=T)
+    sd <- d %>% group_by(doy) %>% summarise_if(is.numeric,sd, na.rm=T)
     #     print(sd)
-    mx <- d %>% group_by(doy_) %>% summarise_if(is.numeric,max,na.rm=T)
-    mn <- d %>% group_by(doy_) %>% summarise_if(is.numeric,min,na.rm=T)
+    mx <- d %>% group_by(doy) %>% summarise_if(is.numeric,max,na.rm=T)
+    mn <- d %>% group_by(doy) %>% summarise_if(is.numeric,min,na.rm=T)
     #     print(mn)
-    q90<- d %>% group_by(doy_) %>% summarise_if(is.numeric,function(x) quantile(x,0.90,na.rm=T))
+    q90<- d %>% group_by(doy) %>% summarise_if(is.numeric,function(x) quantile(x,0.90,na.rm=T))
     #     print(q90)
-    q10 <- d %>% group_by(doy_) %>% summarise_if(is.numeric,function(x) quantile(x,0.10,na.rm=T))
-    sd$doy_=s$doy_
+    q10 <- d %>% group_by(doy) %>% summarise_if(is.numeric,function(x) quantile(x,0.10,na.rm=T))
+    sd$doy=s$doy
     for (v in vars){
-      xlim=range(d$doy_)
+      xlim=range(d$doy)
       ylim=range(d[,v],na.rm=T)
       plot(s$y, s[,v], ylab=v,type='l',xlim=xlim,ylim=ylim)
       #       lines(sd$y,s[,v]+sd[,v],col='grey')
       #       lines(sd$y,s[,v]-sd[,v],col='grey')
-      lines(q90$doy_,q90[,v],col='grey')
-      lines(q10$doy_,q10[,v],col='grey')
-      lines(mx$doy_,mx[,v],lty=3)
-      lines(mn$doy_,mn[,v],lty=3)
+      lines(q90$doy,q90[,v],col='grey')
+      lines(q10$doy,q10[,v],col='grey')
+      lines(mx$doy,mx[,v],lty=3)
+      lines(mn$doy,mn[,v],lty=3)
     }    
   } else {   # NAs
     for (v in vars){
-      xlim=range(d$doy_)
-      ylim=range(d$year_)
-      plot(d$doy_, ifelse(is.na(d[,v]),d$x,NA), ylab=v,type='l',xlim=xlim,ylim=ylim)
+      xlim=range(d$doy)
+      ylim=range(d$year)
+      plot(d$doy, ifelse(is.na(d[,v]),d$x,NA), ylab=v,type='l',xlim=xlim,ylim=ylim)
     }
   }
   par(op)

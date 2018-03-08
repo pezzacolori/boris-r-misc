@@ -79,8 +79,8 @@ rescale01 <- function(x, na.rm=FALSE){
 #'@export
 #'
 cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c("pearson", "kendall", "spearman")){
-  if (!is.null(vars)) data <- data[, vars]
-  d <- cor(data, use = use, method=method)
+  if (!is.null(vars)) data <- data %>% pull(!!vars)
+  d <- cor(data, use =use, method=method)
   cor2df(d, threshold)
 }
 
@@ -105,8 +105,9 @@ cor2df <- function(cor.matrix, threshold=0.6){
       if (j<=i) cor.matrix[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
     }
   }
-  d_m <- as.data.frame(cor.matrix) %>% gather(na.rm=T)  
-  unique(d_m[abs(d_m$value)>threshold & !is.na(d_m$value),])
+  d_m <- as.data.frame(cor.matrix) %>% gather(na.rm=T)
+  x=d_m %>% filter(abs(value)>!!threshold & !is.na(value))
+  unique(x)
 }
 
 
@@ -258,8 +259,7 @@ without_na <- function (data, selection){
             selection
   
   for (var in vars){
-    #     print(var)
-    data <- data[!is.na(data[,var]),]
+    data <- data %>% filter(!is.na(var))
   }
   data
 }
