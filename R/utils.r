@@ -99,7 +99,6 @@ cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c(
 #'@export
 #'
 cor2df <- function(cor.matrix, threshold=0.6){
-  threshold<-enquo(threshold)
   library(tidyr)
   for (i in 1:ncol(cor.matrix)){
     for (j in 1:nrow(cor.matrix)){
@@ -107,7 +106,7 @@ cor2df <- function(cor.matrix, threshold=0.6){
     }
   }
   d_m <- gather(as.data.frame(cor.matrix), na.rm=T)  
-  x=d_m %>% filter(abs(value)> !!!syms(threshold) & !is.na(value))
+  x=d_m %>% filter(abs(value)> !!sym(threshold)) & !is.na(value))
   unique(x)
 }
 
