@@ -450,6 +450,7 @@ bkr <- function(d,thr, depvar_name='y'){
 #'@export
 #'  
 fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
+  library(dplyr)
   depvar_name<-enquo(depvar_name)
   d <- d %>% arrange(!!depvar_name)
   x <- d %>% pull(!!depvar_name)
@@ -467,6 +468,7 @@ fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presenc
 #'@export
 #'  
 bkr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
+  library(dplyr)
   depvar_name<-enquo(depvar_name)
   d <- d %>% arrange(!!depvar_name)
   x <- d %>% pull(!!depvar_name)
