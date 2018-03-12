@@ -418,7 +418,7 @@ tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){
 #'  
 fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){     
   depvar_name<-enquo(depvar_name)
-  x<- d %>% filterUQ(ocurrence_colname==0)) %>% pull(!!depvar_name)
+  x<- d %>% filter(UQ(ocurrence_colname==0)) %>% pull(!!depvar_name)
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
