@@ -416,9 +416,9 @@ tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){
 #'@return false positive rate (1- specificity) 
 #'@export
 #'  
-fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){     
+fpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){     
   d<-data.frame(d)
-  x<- d %>% filter(UQ(ocurrence_colname==0)) %>% pull(!!(depvar_name))
+  x<- d %>% filter(!!!syms(occurrence_colname==0)) %>% pull(!!(depvar_name))
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
@@ -433,7 +433,7 @@ fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){
 #'  
 bkr <- function(d,thr, depvar_name='y'){
   d<-data.frame(d)
-  x <- d %>% pull(UQ(depvar_name))
+  x <- d %>% pull(!!(depvar_name))
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }

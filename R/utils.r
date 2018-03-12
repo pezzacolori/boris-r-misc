@@ -107,7 +107,7 @@ cor2df <- function(cor.matrix, threshold=0.6){
     }
   }
   d_m <- gather(as.data.frame(cor.matrix), na.rm=T)  
-  x=d_m %>% filter(abs(value)>UQ(threshold) & !is.na(value))
+  x=d_m %>% filter(abs(value)> !!!syms(threshold) & !is.na(value))
   unique(x)
 }
 
