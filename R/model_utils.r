@@ -418,7 +418,7 @@ tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){
 #'  
 fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){     
   depvar_name<-enquo(depvar_name)
-  x<- d %>% filter(!!ocurrence_colname==0) %>% pull(!!depvar_name)
+  x<- d %>% filterUQ(ocurrence_colname==0)) %>% pull(!!depvar_name)
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
@@ -433,7 +433,7 @@ fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){
 #'  
 bkr <- function(d,thr, depvar_name='y'){
   depvar_name<-enquo(depvar_name)
-  x <- d %>% pull(!!depvar_name)
+  x <- d %>% pull(UQ(depvar_name))
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
@@ -452,8 +452,8 @@ bkr <- function(d,thr, depvar_name='y'){
 fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
   library(dplyr)
   depvar_name<-enquo(depvar_name)
-  d <- d %>% arrange(!!depvar_name)
-  x <- d %>% pull(!!depvar_name)
+  d <- d %>% arrange(UQ(depvar_name))
+  x <- d %>% pull(UQ(depvar_name))
   thr <- approx( tpr(d, x, depvar_name, occurrence_colname),x ,tp.rate, rule=2)$y
   fpr(d, thr,  depvar_name, occurrence_colname)
 }
@@ -470,8 +470,8 @@ fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presenc
 bkr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
   library(dplyr)
   depvar_name<-enquo(depvar_name)
-  d <- d %>% arrange(!!depvar_name)
-  x <- d %>% pull(!!depvar_name)
+  d <- d %>% arrange(UQ(depvar_name))
+  x <- d %>% pull(UQ(depvar_name))
   thr <- approx(tpr(d, x, depvar_name, occurrence_colname), x, tp.rate, rule=2)$y
   
 }
