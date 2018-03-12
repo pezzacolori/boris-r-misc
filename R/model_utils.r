@@ -401,7 +401,7 @@ tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){
   #   }
   #   Vectorize(singletpr,'thr')(d,thr)
   d<-data.frame(d)
-  x<- d %>% filter(!!sym(occurrence_colname==1)) %>% pull(!!(depvar_name))
+  x<- d %>% filter(!!occurrence_colname==1) %>% pull(!!(depvar_name))
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n)
 }
@@ -418,7 +418,7 @@ tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){
 #'  
 fpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){     
   d<-data.frame(d)
-  x<- d %>% filter(!!sym(occurrence_colname==0)) %>% pull(!!(depvar_name))
+  x<- d %>% filter(!!occurrence_colname==0) %>% pull(!!(depvar_name))
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
