@@ -79,8 +79,9 @@ rescale01 <- function(x, na.rm=FALSE){
 #'@export
 #'
 cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c("pearson", "kendall", "spearman")){
-  if (!is.null(vars)) data <- data[, vars]
-  d <- cor(data, use = use, method=method)
+  vars<- enquo(vars)
+  if (!is.null(vars)) data <- data %>% pull(!!vars)
+  d <- cor(data, use =use, method=method)
   cor2df(d, threshold)
 }
 
@@ -98,14 +99,15 @@ cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c(
 #'@export
 #'
 cor2df <- function(cor.matrix, threshold=0.6){
+  threshold<-enquo(threshold)
   library(tidyr)
   for (i in 1:ncol(cor.matrix)){
     for (j in 1:nrow(cor.matrix)){
       if (j<=i) cor.matrix[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
     }
   }
-  d_m <- as.data.frame(cor.matrix) %>% gather(na.rm=T)
-  unique(d_m[abs(d_m$value)>threshold & !is.na(d_m$value),])
+  x=d_m %>% filter(abs(value)>!!threshold & !is.na(value))
+  unique(x)
 }
 
 
