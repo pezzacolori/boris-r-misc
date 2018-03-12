@@ -417,7 +417,7 @@ tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){
 #'@export
 #'  
 fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){     
-  x<- d %>% filter(!!ocurrence_colname==0) %>% pull(!!depvar_name)
+  x <- d$y[d$presence==0]
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
@@ -431,10 +431,11 @@ fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){
 #'@export
 #'  
 bkr <- function(d,thr, depvar_name='y'){
-  x <- d %>% pull(!!depvar_name)
+  x <- d[, depvar_name]
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
+
 
 
 #' False positive rate for a given true positive rate
@@ -447,12 +448,10 @@ bkr <- function(d,thr, depvar_name='y'){
 #'@export
 #'  
 fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
-  d <- d %>% arrange(!!depvar_name)
-  x <- d %>% pull(!!depvar_name)
-  thr <- approx( tpr(d, x, depvar_name, occurrence_colname),x ,tp.rate, rule=2)$y
+  d <- d[order(d[,depvar_name]),]
+  thr <- approx( tpr(d, d[,depvar_name], depvar_name, occurrence_colname), d[,depvar_name] ,tp.rate, rule=2)$y
   fpr(d, thr,  depvar_name, occurrence_colname)
 }
-
 
 #' Background portion for a given true positive rate
 #' 
@@ -464,11 +463,14 @@ fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presenc
 #'@export
 #'  
 bkr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
-  d <- d %>% arrange(!!depvar_name)
-  x <- d %>% pull(!!depvar_name)
-  thr <- approx(tpr(d, x, depvar_name, occurrence_colname), x, tp.rate, rule=2)$y
+  d <- d[order(d[,depvar_name]),]
+  thr <- approx(tpr(d, d[, depvar_name], depvar_name, occurrence_colname), d[,depvar_name], tp.rate, rule=2)$y
+  #   Vectorize(function(x,thr) nrow(x[x$y>=thr,]),'thr' )(d, thr)/ nrow(d)
   
   bkr(d, thr, depvar_name)
+  #   x <- d$y
+  #   n <- length(d)
+  #   sapply(thr, FUN=function(th) length(x[x>=th])/n)  
   
 }
 
