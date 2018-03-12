@@ -79,11 +79,10 @@ rescale01 <- function(x, na.rm=FALSE){
 #'@export
 #'
 cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c("pearson", "kendall", "spearman")){
-  if (!is.null(vars)) data <- data %>% pull(!!vars)
-  d <- cor(data, use =use, method=method)
+  if (!is.null(vars)) data <- data[, vars]
+  d <- cor(data, use = use, method=method)
   cor2df(d, threshold)
 }
-
 
 #'Variable pairs correlated above a threshold
 #'
@@ -106,8 +105,7 @@ cor2df <- function(cor.matrix, threshold=0.6){
     }
   }
   d_m <- as.data.frame(cor.matrix) %>% gather(na.rm=T)
-  x=d_m %>% filter(abs(value)>!!threshold & !is.na(value))
-  unique(x)
+  unique(d_m[abs(d_m$value)>threshold & !is.na(d_m$value),])
 }
 
 
@@ -165,7 +163,7 @@ ind_vars <- function(formula, simplify=F){
 formulae <- function(formula, dep=NULL, vars=NULL, nullmodelterm="1", minsize=1, maxsize=NULL){        #vars are without nullmodelterm   #nullmodelterm in case of fixed term    #polyDegree can be a vector specifying for each term of vars the degree
   if (!missing(formula)){
     if (!is.null(dep) || !is.null(vars)) warning('Formula is specified and also dep and/or vars. Only the formula term will be considered.')
-    dep <- dep_vars(formula)
+    dep <- rs(formula)
     vars <- ind_vars(formula)    
   }
   
