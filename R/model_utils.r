@@ -400,8 +400,8 @@ tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){
   #     nrow(d[d$presence==1 & d$y>=thr,])/ nrow(d[d$presence==1,])
   #   }
   #   Vectorize(singletpr,'thr')(d,thr)
-  
-  x <- d[d[, occurrence_colname]==1, depvar_name]
+  d<-data.frame(d)
+  x<- d %>% filter(UQ(ocurrence_colname==1)) %>% pull(UQ(depvar_name))
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n)
 }
@@ -417,8 +417,8 @@ tpr <- function(d, thr, depvar_name='y', occurrence_colname='presence'){
 #'@export
 #'  
 fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){     
-  depvar_name<-enquo(depvar_name)
-  x<- d %>% filter(UQ(ocurrence_colname==0)) %>% pull(!!depvar_name)
+  d<-data.frame(d)
+  x<- d %>% filter(UQ(ocurrence_colname==0)) %>% pull(UQ(depvar_name))
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
 }
@@ -432,7 +432,7 @@ fpr <- function(d, thr, depvar_name='y', ocurrence_colname='presence'){
 #'@export
 #'  
 bkr <- function(d,thr, depvar_name='y'){
-  depvar_name<-enquo(depvar_name)
+  d<-data.frame(d)
   x <- d %>% pull(UQ(depvar_name))
   n <- length(x)
   sapply(thr, FUN=function(th) length(x[x>=th])/n) 
@@ -451,9 +451,9 @@ bkr <- function(d,thr, depvar_name='y'){
 #'  
 fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
   library(dplyr)
-  depvar_name<-enquo(depvar_name)
-  d <- d %>% arrange(UQ(depvar_name))
-  x <- d %>% pull(UQ(depvar_name))
+  d<-data.frame(d)
+  d <- d %>% arrange(!!!(syms(depvar_name)))
+  x <- d %>% pull(!!!(syms(depvar_name)))
   thr <- approx( tpr(d, x, depvar_name, occurrence_colname),x ,tp.rate, rule=2)$y
   fpr(d, thr,  depvar_name, occurrence_colname)
 }
@@ -469,11 +469,11 @@ fpr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presenc
 #'  
 bkr_for_tpr <- function(d, tp.rate, depvar_name='y', occurrence_colname='presence'){     
   library(dplyr)
-  depvar_name<-enquo(depvar_name)
-  d <- d %>% arrange(UQ(depvar_name))
-  x <- d %>% pull(UQ(depvar_name))
+  d<-data.frame(d)
+  d <- d %>% arrange(!!!(syms(depvar_name)))
+  x <- d %>% pull(!!!(syms(depvar_name)))
   thr <- approx(tpr(d, x, depvar_name, occurrence_colname), x, tp.rate, rule=2)$y
-  
+  bkr(d, thr, depvar_name)
 }
 
 

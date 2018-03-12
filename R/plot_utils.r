@@ -21,11 +21,9 @@
 #'
 yearplots <- function(data, vars, year='year',doy='doy', what=c('data','mean','na'),rows=floor(length(vars)/cols+1), cols=4){
   library(dplyr)
-  d <-data
-  year<-enquo(year)
-  doy<-enquo(doy)
-  d <- d %>% mutate(year=!!year,
-                    doy=!!doy)
+  d <-data.frame(data)
+  d <- d %>% mutate(year=!!!(syms(year)),
+                    doy=!!!(syms(doy)))
   d <- d %>% select(year, doy, vars)
   
   op <- par(no.readonly=T)
