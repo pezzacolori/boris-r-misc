@@ -4,7 +4,7 @@
 \alias{bkr}
 \title{Background proportion}
 \usage{
-bkr(d, thr, depvar_name = "y")
+bkr(d, thr, depvar = y)
 }
 \arguments{
 \item{d}{dataframe}

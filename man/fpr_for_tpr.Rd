@@ -4,7 +4,7 @@
 \alias{fpr_for_tpr}
 \title{False positive rate for a given true positive rate}
 \usage{
-fpr_for_tpr(d, tp.rate, depvar_name = "y", occurrence_colname = "presence")
+fpr_for_tpr(d, tp.rate, depvar = y, occurrence = presence)
 }
 \arguments{
 \item{d}{dataframe}

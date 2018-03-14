@@ -4,7 +4,7 @@
 \alias{tpr}
 \title{True positive rate (sensitivity)}
 \usage{
-tpr(d, thr, depvar_name = "y", occurrence_colname = "presence")
+tpr(d, thr, depvar = y, occurrence = presence)
 }
 \arguments{
 \item{d}{dataframe}

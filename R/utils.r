@@ -80,6 +80,7 @@ rescale01 <- function(x, na.rm=FALSE){
 #'
 cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c("pearson", "kendall", "spearman")){
   data<-data.frame(data)
+  
   if (!is.null(vars)) data <- data %>% select(!!vars)
   d <- cor(data, use =use, method=method)
   cor2df(d, threshold)
@@ -99,16 +100,23 @@ cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c(
 #'@export
 #'
 cor2df <- function(cor.matrix, threshold=0.6){
-  library(tidyr)
-  for (i in 1:ncol(cor.matrix)){
-    for (j in 1:nrow(cor.matrix)){
-      if (j<=i) cor.matrix[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
+    library(tidyr)
+    threshold <-enquo(threshold)
+    for (i in 1:ncol(cor.matrix)){
+      for (j in 1:nrow(cor.matrix)){
+        if (j<=i) cor.matrix[j,i] <- NA    #set to NA half of the correlation matrix plus the diagonal
+      }
     }
+    cor.matrix<-as.data.frame(cor.matrix,optional = TRUE)
+    cor.matrix<-rownames_to_column(cor.matrix, var = "rowname")
+    d_m <- gather(cor.matrix,key='key',value='value',-rowname,na.rm=T) 
+    print(d_m)
+    unique(d_m[abs(d_m$value)>threshold & !is.na(d_m$value),])
+    
+    x=d_m %>% filter(abs(value)> !!threshold & !is.na(value))
+    unique(x)
+    
   }
-  d_m <- gather(as.data.frame(cor.matrix), na.rm=T)  
-  x=d_m %>% filter(abs(value)> !!threshold & !is.na(value))
-  unique(x)
-}
 
 
 
