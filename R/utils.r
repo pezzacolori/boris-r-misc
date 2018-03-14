@@ -110,7 +110,6 @@ cor2df <- function(cor.matrix, threshold=0.6){
     cor.matrix<-as.data.frame(cor.matrix,optional = TRUE)
     cor.matrix<-rownames_to_column(cor.matrix, var = "rowname")
     d_m <- gather(cor.matrix,key='key',value='value',-rowname,na.rm=T) 
-    print(d_m)
     unique(d_m[abs(d_m$value)>threshold & !is.na(d_m$value),])
     
     x=d_m %>% filter(abs(value)> !!threshold & !is.na(value))

@@ -456,7 +456,7 @@ fpr_for_tpr <- function(d, tp.rate, depvar=y, occurrence=presence){
   
   d <- d %>% arrange(!!depvar)
   x <- d %>% pull(!!(depvar))
-  thr <- approx( tpr(d, x, depvar, occurrence),x ,tp.rate, rule=2)$y
+  thr <- approx( tpr(d, x, !!depvar, !!occurrence),x ,tp.rate, rule=2)$y
   fpr(d, thr,  depvar, occurrence)
 }
 
@@ -475,7 +475,7 @@ bkr_for_tpr <- function(d, tp.rate, depvar=y, occurrence=presence){
 
   d <- d %>% arrange(!!depvar)
   x <- d %>% pull(!!depvar)
-  thr <- approx(tpr(d, x, depvar, occurrence), x, tp.rate, rule=2)$y
+  thr <- approx(tpr(d, x, !!depvar, !!occurrence), x, tp.rate, rule=2)$y
   bkr(d, thr, depvar)
 }
 
