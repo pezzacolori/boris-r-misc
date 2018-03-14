@@ -4,7 +4,7 @@
 \alias{bkr_for_tpr}
 \title{Background portion for a given true positive rate}
 \usage{
-bkr_for_tpr(d, tp.rate, depvar_name = "y", occurrence_colname = "presence")
+bkr_for_tpr(d, tp.rate, depvar = y, occurrence = presence)
 }
 \arguments{
 \item{d}{dataframe}
