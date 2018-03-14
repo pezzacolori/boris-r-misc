@@ -19,9 +19,12 @@
 #'@return plot
 #'@export
 #'
-yearplots <- function(data, vars, year='year',doy='doy', what=c('data','mean','na'),rows=floor(length(vars)/cols+1), cols=4){
+yearplots <- function(data, vars, year=year,doy=doy, what=c('data','mean','na'),rows=floor(length(vars)/cols+1), cols=4){
   library(dplyr)
   d <-data.frame(data)
+  year <- enquo(year)
+  doy <- enquo(doy)
+  
   d <- d %>% mutate(year=!!year,
                     doy=!!doy)
   d <- d %>% select(year, doy, vars)
