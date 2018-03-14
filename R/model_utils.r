@@ -398,6 +398,7 @@ accuracy_glm_cross <- function(m, abundance, test, depvar_name, abundance_name){
 tpr <- function(d, thr, depvar=y, occurrence=presence){    
   depvar <-enquo(depvar)
   occurrence <- enquo(occurrence)
+  d<-data.frame(d)
   
   x<- d %>% filter(!!occurrence==1) %>% pull(!!(depvar))
   n <- length(x)
@@ -417,6 +418,7 @@ tpr <- function(d, thr, depvar=y, occurrence=presence){
 fpr <- function(d, thr, depvar=y, occurrence=presence){     
   depvar <-enquo(depvar)
   occurrence <- enquo(occurrence)
+  d<-data.frame(d)
   
   x<- d %>% filter(!!occurrence==0) %>% pull(!!(depvar))
   n <- length(x)
@@ -433,6 +435,7 @@ fpr <- function(d, thr, depvar=y, occurrence=presence){
 #'  
 bkr <- function(d,thr, depvar=y){
   depvar<-enquo(depvar)
+  d<-data.frame(d)
   
   x <- d %>% pull(!!(depvar))
   n <- length(x)
@@ -453,11 +456,12 @@ bkr <- function(d,thr, depvar=y){
 fpr_for_tpr <- function(d, tp.rate, depvar=y, occurrence=presence){     
   depvar <-enquo(depvar)
   occurrence <- enquo(occurrence)
+  d<-data.frame(d)
   
   d <- d %>% arrange(!!depvar)
   x <- d %>% pull(!!(depvar))
   thr <- approx( tpr(d, x, !!depvar, !!occurrence),x ,tp.rate, rule=2)$y
-  fpr(d, thr,  depvar, occurrence)
+  fpr(d, thr,  !!depvar, !!occurrence)
 }
 
 #' Background portion for a given true positive rate
@@ -472,11 +476,12 @@ fpr_for_tpr <- function(d, tp.rate, depvar=y, occurrence=presence){
 bkr_for_tpr <- function(d, tp.rate, depvar=y, occurrence=presence){     
   depvar <-enquo(depvar)
   occurrence <- enquo(occurrence)
-
+  d<-data.frame(d)
+  
   d <- d %>% arrange(!!depvar)
   x <- d %>% pull(!!depvar)
   thr <- approx(tpr(d, x, !!depvar, !!occurrence), x, tp.rate, rule=2)$y
-  bkr(d, thr, depvar)
+  bkr(d, thr, !!depvar)
 }
 
 
