@@ -80,7 +80,7 @@ rescale01 <- function(x, na.rm=FALSE){
 #'
 cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c("pearson", "kendall", "spearman")){
   data<-data.frame(data)
-  threshold<- enquo(threshod)
+  threshold<- enquo(threshold)
   vars <- enquo(vars)
   
   if (!is.null(!!vars)) data <- data %>% select(!!vars)
