@@ -80,12 +80,11 @@ rescale01 <- function(x, na.rm=FALSE){
 #'
 cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c("pearson", "kendall", "spearman")){
   data<-data.frame(data)
-  threshold<- enquo(threshold)
   vars <- enquo(vars)
   
   if (!is.null(vars)) data <- data %>% select(!!vars)
   d <- cor(data, use =use, method=method)
-  cor2df(d, !!threshold)
+  cor2df(d, threshold)
 }
 
 #'Variable pairs correlated above a threshold
@@ -103,7 +102,6 @@ cordf <- function(data, vars=NULL, threshold=0.6, use = "everything", method= c(
 #'
 cor2df <- function(cor.matrix, threshold=0.6){
     library(tidyr)
-    threshold <-enquo(threshold)
     
     for (i in 1:ncol(cor.matrix)){
       for (j in 1:nrow(cor.matrix)){
@@ -113,10 +111,14 @@ cor2df <- function(cor.matrix, threshold=0.6){
     cor.matrix<-as.data.frame(cor.matrix,optional = TRUE)
     cor.matrix<-rownames_to_column(cor.matrix, var = "rowname")
     d_m <- gather(cor.matrix,key='key',value='value',-rowname,na.rm=T) 
-    x=d_m %>% filter(abs(value)> !!threshold & !is.na(value))
+    x=d_m %>% filter(abs(value)> threshold & !is.na(value))
     unique(x)
     
   }
+
+
+
+
 
 
 
