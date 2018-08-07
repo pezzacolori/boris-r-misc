@@ -416,12 +416,12 @@ tpr <- function(d, thr, depvar, occurrence=presence){
 #' 
 #'@param d dataframe 
 #'@param thr threshold value
-#'@param depvar_name name of the column holding the model output
-#'@param ocurrence_colname name of the column holding presence [0/1]
+#'@param depvar column holding the model output
+#'@param occurrence column holding presence [0/1]
 #'@return false positive rate (1- specificity) 
 #'@export
 #'  
-fpr <- function(d, thr, depvar, occurrence=presence){     
+fpr <- function(d, thr, depvar, occurrence){     
   depvar <-enquo(depvar)
   occurrence <- enquo(occurrence)
   d<-data.frame(d)
@@ -454,8 +454,8 @@ bkr <- function(d,thr, depvar){
 #' 
 #'@param d dataframe 
 #'@param tp.rate true positive rate
-#'@param depvar_name name of the column holding the model output
-#'@param occurrence_colname name of the column holding presence [0/1]
+#'@param depvar column holding the model output
+#'@param occurrence column holding presence [0/1]
 #'@return false positive rate
 #'@export
 #'  
