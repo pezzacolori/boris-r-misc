@@ -16,3 +16,6 @@ build_win()
 install()
 
 dev_mode()
+
+system(paste(shQuote(file.path(R.home("bin"), "R")),
+             "CMD", "Rd2pdf", shQuote(find.package('boris'))))

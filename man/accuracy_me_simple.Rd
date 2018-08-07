@@ -16,7 +16,8 @@ accuracy_me_simple(me, p, a, abundance = NULL)
 \item{abundance}{abundances, should be passed in same order as presences and same length}
 }
 \value{
-a vector of named arguments (n=number data, np=numer of presences, )
+a vector of named arguments (n=number data, np=numer of presences,
+auc=usual auc, auc.bg=auc on background, auc.me=auc for maxent, aicc.me=aicc for maxent )
 }
 \description{
 Evaluate according to multiple criteria a maxent model (\code{\link{maxent}})

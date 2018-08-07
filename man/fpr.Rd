@@ -4,7 +4,7 @@
 \alias{fpr}
 \title{False positive rate (1- specificity)}
 \usage{
-fpr(d, thr, depvar = y, occurrence = presence)
+fpr(d, thr, depvar, occurrence = presence)
 }
 \arguments{
 \item{d}{dataframe}

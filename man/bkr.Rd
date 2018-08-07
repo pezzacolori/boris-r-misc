@@ -4,14 +4,14 @@
 \alias{bkr}
 \title{Background proportion}
 \usage{
-bkr(d, thr, depvar = y)
+bkr(d, thr, depvar)
 }
 \arguments{
 \item{d}{dataframe}
 
 \item{thr}{threshold value}
 
-\item{depvar_name}{name of the column holding the model output}
+\item{depvar}{column holding the model output}
 }
 \value{
 background proportion

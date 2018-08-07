@@ -182,18 +182,20 @@ accuracy_simple <- function(p, a, abundance=NULL){
   if (!is.null(abundance)){
     if (length(abundance)!=length(p)){
       stop(paste('abundance has to be the same length as model data! abundance =',length(abundance),', presence =',length(p)))
-      area <-NA
-      area.log <-NA
+      area      <-NA
+      area.log  <-NA
+      area.rank <- NA
+
     } else{   
-#       tp.rate <- 1:length(p)
-#       tp.rate <- rescale01(tp.rate) #wrong  dic 2013   bp 
+
       tp.rate <- c(0, 1:length(p)/length(p))    #add zero to have start point
       
-      abundance[is.na(abundance)] <- 0              #replace missing abundances with 0 ha
-      mx.csum <-  sum(abundance, na.rm=T)           # max(cumsum(abundance))  ??
-      mx.log.csum <- sum(log(abundance+1), na.rm=T)  #max(cumsum(log(abundance+1))) ??
+      abundance[is.na(abundance)] <- 0                 #replace missing abundances with 0
+      mx.csum <-  sum(abundance, na.rm=T)              # max value for cumsum(abundance)  
+      mx.log.csum <- sum(log(abundance + 1), na.rm=T)  #max value for cumsum(log(abundance+1))
+      mx.rank.csum <- sum(rank(abundance), na.rm = T)  #max value for cumsum(rank(abundance)))
       
-      #-------
+      #-------area
       abundance.ord <- abundance[order(abundance)]
       w.min <- c(0, cumsum(abundance.ord)/mx.csum)     #add zero to have start point
       area.min <- calcArea(tp.rate, w.min)      
@@ -204,18 +206,26 @@ accuracy_simple <- function(p, a, abundance=NULL){
       w <- c(0, cumsum(rev(abundance))/mx.csum)      #add zero to have start point
       area <- calcArea(tp.rate, w)
       
-      area.rel <- (area-area.min)/(area.max-area.min)
+      area.rel <- (area - area.min)/(area.max - area.min)
       
-      #-------
-      w.log.min <- c(0, cumsum(log(abundance.ord+1))/mx.log.csum)    #add zero to have start point
+      #-------log area
+      w.log.min <- c(0, cumsum(log(abundance.ord + 1))/mx.log.csum)    #add zero to have start point
       area.log.min <- calcArea(tp.rate, w.log.min)      
-      w.log.max <- c(0, cumsum(rev(log(abundance.ord+1)))/mx.log.csum)    #add zero to have start point
+      w.log.max <- c(0, cumsum(rev(log(abundance.ord + 1)))/mx.log.csum)    #add zero to have start point
       area.log.max <- calcArea(tp.rate, w.log.max)      
       
-      w.log <- c(0, cumsum(rev(log(abundance+1)))/mx.log.csum)     #add zero to have start point
-      area.log <- calcArea(tp.rate, w.log)
-      
-      area.log.rel <- (area.log-area.log.min)/(area.log.max-area.log.min)      
+      w.log <- c(0, cumsum(rev(log(abundance + 1)))/mx.log.csum)     #add zero to have start point
+      area.log <- calcArea(tp.rate, w.log)      
+      area.log.rel <- (area.log - area.log.min)/(area.log.max - area.log.min)  
+
+      #-------rank area
+      w.rank.min <- c(0, cumsum(rank(abundance.ord))/mx.rank.csum)
+      area.rank.min <- calcArea(tp.rate, w.rank.min)
+      w.rank.max <- c(0, cumsum(rev(rank(abundance.ord)))/mx.rank.csum)
+      area.rank.max <- calcArea(tp.rate, w.rank.max)
+      w.rank <- c(0, cumsum(rev(rank(abundance)))/mx.rank.csum)
+      area.rank <- calcArea(tp.rate, w.rank)
+      area.rank.rel <- (area.rank - area.rank.min)/(area.rank.max - area.rank.min)
     }
     #check auc
     #auc.area <- 1-calcArea(tp.rate,fpr_for_tpr(d,tp.rate))   #was consistent with auc  (less than 0.01 difference)
@@ -233,12 +243,10 @@ accuracy_simple <- function(p, a, abundance=NULL){
     out <- c(out,
              area= area,
              area.log=area.log,
+	           area.rank = area.rank,
              area.rel=area.rel,
              area.log.rel=area.log.rel,
-             #       area.max=area.max,
-             #       area.log.max=area.log.max,
-             #       intersect.auc.area.rel = auc.usual + area.rel -1,
-             intersect.auc.bg.area.log.rel = auc.bg + area.log.rel -1 
+             area.rank.rel = area.rank.rel
     )
   }
   out
@@ -252,26 +260,27 @@ accuracy_simple <- function(p, a, abundance=NULL){
 #'@param p presences
 #'@param a absences
 #'@param abundance abundances, should be passed in same order as presences and same length
-#'@return a vector of named arguments (n=number data, np=numer of presences, )
+#'@return a vector of named arguments (n=number data, np=numer of presences,
+#'auc=usual auc, auc.bg=auc on background, auc.me=auc for maxent, aicc.me=aicc for maxent )
 #'@export
 #'
 accuracy_me_simple <- function(me, p, a, abundance=NULL){   
   #   library(SDMTools)
   
-  auc.me=me@results[5]  
+  auc.me  <- me@results[5]  
   aicc_me <- aicc_me(me)
   
   a <- accuracy_simple(p,a, abundance)
   
   #put results in a vector with column names (for binding in data.frame later)              
-  out <- c(a[1:4],
-    auc.me=auc.me
+  out <- c( a[1:4],
+            auc.me=auc.me,
+            aicc.me = aicc_me
     )
   
   if (!is.null(abundance)){ 
     out <- c(out,
-             a[5:9],
-             aicc_me = aicc_me
+             a[5:10]
     )
   }
   out
@@ -293,12 +302,13 @@ accuracy_glm_simple <- function(m, p,a, abundance=NULL){
   
   a <- accuracy_simple(p,a, abundance)
   
-  out <- a
+  out <- c( a[1:4],
+            aic = m$aic,
+            aicc = NA )#aicc(m)) #aicc(m))
   
   if (!is.null(abundance)){ 
     out <- c(out,
-             aic = m$aic,
-             aicc = NA )#aicc(m)) #aicc(m))
+             a[5:10])
   }
   out
   
@@ -323,7 +333,6 @@ accuracy_me_cross <- function(me, abundance, test=NULL, depvar_name, abundance_n
   # --------------------------  calc training accuracy   (data stored into maxent model)
   p <-predict(me,me@presence) 
   a <-predict(me,me@absence)
-  #   print(paste(length(abundance),length(p)))  #mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
   out <- accuracy_me_simple(me,p,a,abundance)
   
   
@@ -335,7 +344,7 @@ accuracy_me_cross <- function(me, abundance, test=NULL, depvar_name, abundance_n
     abundance <- test[test[,depvar_name]==1,abundance_name]
     out.test <- accuracy_me_simple(me,p,a,abundance)
     names(out.test) <- paste(names(out.test),'.test',sep='')
-    out <- c(out,out.test[-length(out.test)])  #don't copy aic test
+    out <- c(out, out.test) 
   }
   
   out
@@ -359,11 +368,8 @@ accuracy_glm_cross <- function(m, abundance, test, depvar_name, abundance_name){
   
   
   # --------------------------  calc training accuracy   (data stored into model)
-  #   p <-predict(m,m@presence) 
-  #   a <-predict(m,m@absence)
   p <- m$fitted.values[m$model[,1]==1]
   a <- m$fitted.values[m$model[,1]!=1]
-  #   print(paste(length(abundance),length(p)))  #mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
   out <- accuracy_glm_simple(m,p,a,abundance)
   
   
@@ -376,7 +382,7 @@ accuracy_glm_cross <- function(m, abundance, test, depvar_name, abundance_name){
     out.test <- accuracy_glm_simple(m,p,a,abundance)
     names(out.test) <- paste(names(out.test),'.test',sep='')
     l <- length(out.test)
-    out <- c(out,out.test[-c((l-1):l)])  #don't copy aic and aicc test
+    out <- c(out, out.test) 
   }
   
   out
@@ -390,12 +396,12 @@ accuracy_glm_cross <- function(m, abundance, test, depvar_name, abundance_name){
 #' 
 #'@param d dataframe 
 #'@param thr threshold value
-#'@param depvar_name name of the column holding the model output
-#'@param occurrence_colname name of the column holding presence [0/1]
+#'@param depvar column holding the model output
+#'@param occurrence column holding presence [0/1]
 #'@return true positive rate (sensitivity)
 #'@export
 #'  
-tpr <- function(d, thr, depvar=y, occurrence=presence){    
+tpr <- function(d, thr, depvar, occurrence=presence){    
   depvar <-enquo(depvar)
   occurrence <- enquo(occurrence)
   d<-data.frame(d)
@@ -415,7 +421,7 @@ tpr <- function(d, thr, depvar=y, occurrence=presence){
 #'@return false positive rate (1- specificity) 
 #'@export
 #'  
-fpr <- function(d, thr, depvar=y, occurrence=presence){     
+fpr <- function(d, thr, depvar, occurrence=presence){     
   depvar <-enquo(depvar)
   occurrence <- enquo(occurrence)
   d<-data.frame(d)
@@ -429,11 +435,11 @@ fpr <- function(d, thr, depvar=y, occurrence=presence){
 #' 
 #'@param d dataframe 
 #'@param thr threshold value
-#'@param depvar_name name of the column holding the model output
+#'@param depvar column holding the model output
 #'@return background proportion
 #'@export
 #'  
-bkr <- function(d,thr, depvar=y){
+bkr <- function(d,thr, depvar){
   depvar<-enquo(depvar)
   d<-data.frame(d)
   
@@ -453,7 +459,7 @@ bkr <- function(d,thr, depvar=y){
 #'@return false positive rate
 #'@export
 #'  
-fpr_for_tpr <- function(d, tp.rate, depvar=y, occurrence=presence){     
+fpr_for_tpr <- function(d, tp.rate, depvar, occurrence){     
   depvar <-enquo(depvar)
   occurrence <- enquo(occurrence)
   d<-data.frame(d)
@@ -468,12 +474,12 @@ fpr_for_tpr <- function(d, tp.rate, depvar=y, occurrence=presence){
 #' 
 #'@param d dataframe 
 #'@param tp.rate true positive rate
-#'@param depvar_name name of the column holding the model output
-#'@param occurrence_colname name of the column holding presence [0/1]
+#'@param depvar column holding the model output
+#'@param occurrence column holding presence [0/1]
 #'@return background proportion
 #'@export
 #'  
-bkr_for_tpr <- function(d, tp.rate, depvar=y, occurrence=presence){     
+bkr_for_tpr <- function(d, tp.rate, depvar, occurrence){     
   depvar <-enquo(depvar)
   occurrence <- enquo(occurrence)
   d<-data.frame(d)
@@ -602,33 +608,34 @@ me_predict <- function(m, data){
   out
 }
 
-#calculate aicc
+#calculate aicc (placeholder)
 aicc_me <- function(m, d, presence.name='presence', mpfr.precision=100){
-  if (missing(d)){
-    p <- m@presence
-    a <- m@absence
-    p[,presence.name] <- 1
-    a[,presence.name] <- 0
-    d <- rbind(p,a)
-  }
-  k <- me_parNum(m)
-  n <- nrow(d)
-  if (k==0 || k>n){
-    NA
-  }else{
-    #     library(Rmpfr)
-    #     mraw <- predict(m, d, progress='text', args=c("outputformat=raw"))
-    #     mraw.s <- mpfr(mraw/sum(mraw),mpfr.precision)
-    # #     mraw.s <- mraw/sum(mraw)
-    #     #   print(sum(mraw.s))
-    #       
-    #     ll <- as.double( log(prod(mraw.s[d[,presence.name]==1])) )
-    # #     t <- prod(mraw.s[d[,presence.name]==1]*exp(8))   #prod(mraw.s[d$fire==1]*exp(8))
-    # #     ll <- log(t) -8*length(mraw.s)
-    #     
-    #     2*k -2*ll + 2*k*(k+1)/(n-k-1)
-    NA
-  }
+  # if (missing(d)){
+  #   p <- m@presence
+  #   a <- m@absence
+  #   p[,presence.name] <- 1
+  #   a[,presence.name] <- 0
+  #   d <- rbind(p,a)
+  # }
+  # k <- me_parNum(m)
+  # n <- nrow(d)
+  # if (k==0 || k>n){
+  #   NA
+  # }else{
+  #   #     library(Rmpfr)
+  #   #     mraw <- predict(m, d, progress='text', args=c("outputformat=raw"))
+  #   #     mraw.s <- mpfr(mraw/sum(mraw),mpfr.precision)
+  #   # #     mraw.s <- mraw/sum(mraw)
+  #   #     #   print(sum(mraw.s))
+  #   #       
+  #   #     ll <- as.double( log(prod(mraw.s[d[,presence.name]==1])) )
+  #   # #     t <- prod(mraw.s[d[,presence.name]==1]*exp(8))   #prod(mraw.s[d$fire==1]*exp(8))
+  #   # #     ll <- log(t) -8*length(mraw.s)
+  #   #     
+  #   #     2*k -2*ll + 2*k*(k+1)/(n-k-1)
+  #   NA
+  # }
+  NA
 }
 
 #' Count the number of Maxent parameters (with lambda!=0) 

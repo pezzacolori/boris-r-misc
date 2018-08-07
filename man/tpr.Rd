@@ -4,16 +4,16 @@
 \alias{tpr}
 \title{True positive rate (sensitivity)}
 \usage{
-tpr(d, thr, depvar = y, occurrence = presence)
+tpr(d, thr, depvar, occurrence = presence)
 }
 \arguments{
 \item{d}{dataframe}
 
 \item{thr}{threshold value}
 
-\item{depvar_name}{name of the column holding the model output}
+\item{depvar}{column holding the model output}
 
-\item{occurrence_colname}{name of the column holding presence [0/1]}
+\item{occurrence}{column holding presence [0/1]}
 }
 \value{
 true positive rate (sensitivity)
