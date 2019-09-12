@@ -3,7 +3,11 @@ Title: Boris' miscellanea
 Description: Miscellaneous functions of boris. It contains general utils,
     model, plot and scientific utils. Probably in future to be splitted into
     multiple packages.
+<<<<<<< HEAD
+Version: 0.21
+=======
 Version: 0.20
+>>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
 Maintainer: Gianni Boris Pezzatti <boris.pezzatti@wsl.ch>
 Author: Gianni Boris Pezzatti
 License: GPL-3
@@ -19,4 +23,8 @@ Imports:
 Suggests:
     testthat,
     roxygen2
+<<<<<<< HEAD
+RoxygenNote: 6.1.1
+=======
 RoxygenNote: 6.0.1
+>>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99

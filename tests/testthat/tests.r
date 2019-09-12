@@ -14,7 +14,11 @@ test_that("orderfactor works with numeric and character vetor to specify levels 
 
 
 
+<<<<<<< HEAD
+context('extract dependent (dep_vars) and independent variables (ind_vars) from formula')
+=======
 context('extract dependent (dep.vars) and independent variables (indep.vars) from formula')
+>>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
 
 test_that("dep_vars works for complete and uncomplete formulae", {
 

@@ -13,7 +13,7 @@ check()
 build()
 build_win()
 
-install()
+  install()
 
 dev_mode()
 

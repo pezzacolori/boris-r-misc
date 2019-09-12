@@ -18,7 +18,11 @@
 #'
 glm_pseudoabsence <- function(formula, family=gaussian,data,...){
   #   p <- data[,as.character(attr(terms(formula(formula)),"variables")[[2]])] 
+<<<<<<< HEAD
+  vars <- dep_vars(formula)
+=======
   vars <- dep.vars(formula)
+>>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
   
   p <- data[, vars]
   p[p==0] <- length(p[p==1])/length(p[p==0])
@@ -270,17 +274,28 @@ accuracy_me_simple <- function(me, p, a, abundance=NULL){
   auc.me  <- me@results[5]  
   aicc_me <- aicc_me(me)
   
+<<<<<<< HEAD
+  as <- accuracy_simple(p,a, abundance)
+  
+  #put results in a vector with column names (for binding in data.frame later)              
+  out <- c( as[1:4],
+=======
   a <- accuracy_simple(p,a, abundance)
   
   #put results in a vector with column names (for binding in data.frame later)              
   out <- c( a[1:4],
+>>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
             auc.me=auc.me,
             aicc.me = aicc_me
     )
   
   if (!is.null(abundance)){ 
     out <- c(out,
+<<<<<<< HEAD
+             as[5:10]
+=======
              a[5:10]
+>>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
     )
   }
   out
@@ -300,15 +315,25 @@ accuracy_me_simple <- function(me, p, a, abundance=NULL){
 accuracy_glm_simple <- function(m, p,a, abundance=NULL){
   #   library(glmulti)  #for aicc
   
+<<<<<<< HEAD
+  as <- accuracy_simple(p,a, abundance)
+  
+  out <- c( as[1:4],
+=======
   a <- accuracy_simple(p,a, abundance)
   
   out <- c( a[1:4],
+>>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
             aic = m$aic,
             aicc = NA )#aicc(m)) #aicc(m))
   
   if (!is.null(abundance)){ 
     out <- c(out,
+<<<<<<< HEAD
+             as[5:10])
+=======
              a[5:10])
+>>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
   }
   out
   
