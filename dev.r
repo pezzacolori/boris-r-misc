@@ -13,7 +13,7 @@ check()
 build()
 build_win()
 
-install()
+  install()
 
 
 system(paste(shQuote(file.path(R.home("bin"), "R")),
