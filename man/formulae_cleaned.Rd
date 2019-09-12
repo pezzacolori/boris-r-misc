@@ -4,22 +4,10 @@
 \alias{formulae_cleaned}
 \title{Formulae from variable combinations without correlated variables}
 \usage{
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 756163c509f040cb5e87fc021d9af7695adab655
 formulae_cleaned(formula, dep = NULL, vars = NULL,
   nullmodelterm = "1", minsize = 1, maxsize = NULL, data,
   threshold = 0.6, use = "everything", method = c("pearson",
   "kendall", "spearman"))
-<<<<<<< HEAD
-=======
-=======
-formulae_cleaned(formula, dep = NULL, vars = NULL, nullmodelterm = "1",
-  minsize = 1, maxsize = NULL, data, threshold = 0.6,
-  use = "everything", method = c("pearson", "kendall", "spearman"))
->>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
->>>>>>> 756163c509f040cb5e87fc021d9af7695adab655
 }
 \arguments{
 \item{formula}{formula with all the terms (beyond optimal model)}

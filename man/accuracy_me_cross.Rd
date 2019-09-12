@@ -4,17 +4,8 @@
 \alias{accuracy_me_cross}
 \title{Accuracy function to evaluate a maxent model for training and test dataset}
 \usage{
-<<<<<<< HEAD
 accuracy_me_cross(me, abundance, test = NULL, depvar_name,
   abundance_name)
-=======
-<<<<<<< HEAD
-accuracy_me_cross(me, abundance, test = NULL, depvar_name,
-  abundance_name)
-=======
-accuracy_me_cross(me, abundance, test = NULL, depvar_name, abundance_name)
->>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
->>>>>>> 756163c509f040cb5e87fc021d9af7695adab655
 }
 \arguments{
 \item{me}{maxent model}

@@ -4,18 +4,8 @@
 \alias{yearplots}
 \title{Multiple plots of daily data over years}
 \usage{
-<<<<<<< HEAD
 yearplots(data, vars, year = year, doy = doy, what = c("data",
   "mean", "na"), rows = floor(length(vars)/cols + 1), cols = 4)
-=======
-<<<<<<< HEAD
-yearplots(data, vars, year = year, doy = doy, what = c("data",
-  "mean", "na"), rows = floor(length(vars)/cols + 1), cols = 4)
-=======
-yearplots(data, vars, year = year, doy = doy, what = c("data", "mean",
-  "na"), rows = floor(length(vars)/cols + 1), cols = 4)
->>>>>>> 82ceb4ed070b06c8cdd8b89c7a7274ce80e84e99
->>>>>>> 756163c509f040cb5e87fc021d9af7695adab655
 }
 \arguments{
 \item{data}{dataframe with data}
