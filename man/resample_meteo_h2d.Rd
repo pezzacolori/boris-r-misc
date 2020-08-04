@@ -5,9 +5,15 @@
 \title{Resample a data.frame with meteorological data with hourly interval to a daily interval,
 allowing the specification at which time to cut the day (e.g. can be summarized foro noon to noon).}
 \usage{
-resample_meteo_h2d(h, time_h = 24, timevar, varnames,
-  aggregation = c("sample", "sum", "mean", "max", "min"), na.rm = F,
-  add_suffix = F)
+resample_meteo_h2d(
+  h,
+  time_h = 24,
+  timevar,
+  varnames,
+  aggregation = c("sample", "sum", "mean", "max", "min"),
+  na.rm = F,
+  add_suffix = F
+)
 }
 \arguments{
 \item{h}{a data.frame holding the hourly data}

@@ -4,8 +4,13 @@
 \alias{cordf}
 \title{Correlations above a threshold}
 \usage{
-cordf(data, vars = NULL, threshold = 0.6, use = "everything",
-  method = c("pearson", "kendall", "spearman"))
+cordf(
+  data,
+  vars = NULL,
+  threshold = 0.6,
+  use = "everything",
+  method = c("pearson", "kendall", "spearman")
+)
 }
 \arguments{
 \item{data}{dataframe with the data}

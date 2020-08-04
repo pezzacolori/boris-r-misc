@@ -4,8 +4,14 @@
 \alias{formulae}
 \title{Formulae from variable combinations}
 \usage{
-formulae(formula, dep = NULL, vars = NULL, nullmodelterm = "1",
-  minsize = 1, maxsize = NULL)
+formulae(
+  formula,
+  dep = NULL,
+  vars = NULL,
+  nullmodelterm = "1",
+  minsize = 1,
+  maxsize = NULL
+)
 }
 \arguments{
 \item{formula}{formula with all the terms (beyond optimal model)}

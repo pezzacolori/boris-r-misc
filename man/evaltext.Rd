@@ -4,8 +4,12 @@
 \alias{evaltext}
 \title{Concatenate and evaluate string expressions in a specified environment}
 \usage{
-evaltext(..., envir = parent.frame(), enclos = if (is.list(envir) ||
-  is.pairlist(envir)) parent.frame() else baseenv(), sep = "")
+evaltext(
+  ...,
+  envir = parent.frame(),
+  enclos = if (is.list(envir) || is.pairlist(envir)) parent.frame() else baseenv(),
+  sep = ""
+)
 }
 \arguments{
 \item{...}{character strings holding the code to be evaluated}

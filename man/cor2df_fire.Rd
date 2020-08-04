@@ -4,8 +4,14 @@
 \alias{cor2df_fire}
 \title{Correlations above a threshold, showing aicc's of a logistic according to fire presence}
 \usage{
-cor2df_fire(data, vars = NULL, fire, threshold, use = "everything",
-  method = c("pearson", "kendall", "spearman"))
+cor2df_fire(
+  data,
+  vars = NULL,
+  fire,
+  threshold,
+  use = "everything",
+  method = c("pearson", "kendall", "spearman")
+)
 }
 \arguments{
 \item{data}{dataframe with the data}

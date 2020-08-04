@@ -8,16 +8,15 @@ Maintainer: Gianni Boris Pezzatti <boris.pezzatti@wsl.ch>
 Author: Gianni Boris Pezzatti
 License: GPL-3
 Imports:
-    dplyr,
-    tidyr,
-    tibble,
     stringr,
     foreach,
     zoo,
+    dismo,
     SDMTools,
-    dismo
+    dplyr,
+    tibble,
+    tidyr
 Suggests:
     testthat,
     roxygen2
-RoxygenNote: 6.1.1
-
+RoxygenNote: 7.1.1
