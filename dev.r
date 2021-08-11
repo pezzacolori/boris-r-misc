@@ -12,7 +12,7 @@ document()
 check()
 
 build()
-build_win()
+# build_win()
 
 install()
 

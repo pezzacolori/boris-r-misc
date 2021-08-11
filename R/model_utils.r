@@ -164,7 +164,8 @@ models <- function(prefix,formulae,suffix, envir=parent.frame(1)){  #formulas as
 #'@export
 #'
 accuracy_simple <- function(p, a, abundance=NULL){   
-  require(SDMTools)
+  # require(SDMTools)
+  require(PRROC)
   
   dp <- data.frame(presence=rep(1,length(p)), y=p)
   da <- data.frame(presence=rep(0,length(a)), y=a)
@@ -230,8 +231,8 @@ accuracy_simple <- function(p, a, abundance=NULL){
     #check auc
     #auc.area <- 1-calcArea(tp.rate,fpr_for_tpr(d,tp.rate))   #was consistent with auc  (less than 0.01 difference)
   }
-  auc.usual=auc(d$presence,d$y)
-  auc.bg=auc(d.bg$presence,d.bg$y) 
+  auc.usual= roc.curve(scores.class0=d$y, weights.class0=d$presence)      #auc(d$presence,d$y)
+  auc.bg= roc.curve(scores.class0=d.bg$y, weights.class0=d.bg$presence)         #auc(d.bg$presence,d.bg$y) 
     
   #put results in a vector with column names (for binding in data.frame later)              
   out <- c( n=nrow(d),
