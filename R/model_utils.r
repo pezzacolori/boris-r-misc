@@ -231,8 +231,8 @@ accuracy_simple <- function(p, a, abundance=NULL){
     #check auc
     #auc.area <- 1-calcArea(tp.rate,fpr_for_tpr(d,tp.rate))   #was consistent with auc  (less than 0.01 difference)
   }
-  auc.usual= roc.curve(scores.class0=d$y, weights.class0=d$presence)      #auc(d$presence,d$y)
-  auc.bg= roc.curve(scores.class0=d.bg$y, weights.class0=d.bg$presence)         #auc(d.bg$presence,d.bg$y) 
+  auc.usual= roc.curve(scores.class0=d$y, weights.class0=d$presence)$auc      #auc(d$presence,d$y)
+  auc.bg= roc.curve(scores.class0=d.bg$y, weights.class0=d.bg$presence)$auc         #auc(d.bg$presence,d.bg$y) 
     
   #put results in a vector with column names (for binding in data.frame later)              
   out <- c( n=nrow(d),
